@@ -12,13 +12,13 @@ angular.module('app', ['ngRoute'])
   .config(($routeProvider) => {
     $routeProvider
       .when('/', {
-        template: '',
+        template: '<div>{{main.articles}}</div>',
         controller: 'MainCtrl',
         controllerAs: 'main'
       })
   })
   .constant('BASE_API', 'https://codename-mercury.firebaseio.com/')
-  .controller('MainCtrl', function($scope, FeedFactory) {
+  .controller('MainCtrl', function($scope, $timeout, FeedFactory) {
     const main = this;
 
     main.feeds = null;
@@ -29,10 +29,18 @@ angular.module('app', ['ngRoute'])
         return main.feeds = FeedFactory.getFeeds();
       })
       .then((feeds) => {
-        FeedFactory.fetchArticles(feeds);
+        return FeedFactory.fetchArticles(feeds);
+      })
+      .then((promiseArr) => {
+        Promise.all(promiseArr)
+          .then(() => {
+            main.articles = FeedFactory.getArticles();
+            $scope.$apply();
+            console.log("main.articles: ", main.articles);
+          })
       })
   })
-  .factory('FeedFactory', function($http, ParseFactory, BASE_API) {
+  .factory('FeedFactory', function($http, $timeout, ParseFactory, BASE_API) {
 
     let allFeeds = [];
     let processedArticles = [];
@@ -47,20 +55,28 @@ angular.module('app', ['ngRoute'])
       },
 
       fetchArticles: function(feeds) {
+        let promiseArray = [];
         for (var key in feeds) {
-          $http.get(feeds[key].url)
-            .then((res) => {
-              var parse = new DOMParser();
-              var xml = parse.parseFromString(res.data, 'application/xml');
-              var pubTitle = xml.querySelector('title').innerHTML;
-              var parseResult = ParseFactory.docParse(xml);
-              parseResult.forEach((result) => {
-                processedArticles.push(result);
+          promiseArray.push(
+            $http.get(feeds[key].url)
+              .then((res) => {
+                var parse = new DOMParser();
+                var xml = parse.parseFromString(res.data, 'application/xml');
+                var pubTitle = xml.querySelector('title').innerHTML;
+                var parseResult = ParseFactory.docParse(xml);
+                for (var i = 0; i < 10; i++) {
+                  if (parseResult[i] === undefined) {
+                    return;
+                  } else {
+                    processedArticles.push(parseResult[i]);
+                  }
+                }
+                // console.log("processedArticles after parse: ", processedArticles);
+                // processedArticles.push(ParseFactory.docParse(xml));
               })
-              console.log("processedArticles after parse: ", processedArticles);
-              // processedArticles.push(ParseFactory.docParse(xml));
-            })
+            )
         }
+        return promiseArray;
       },
 
       getFeeds: function() {
@@ -79,31 +95,6 @@ angular.module('app', ['ngRoute'])
     return {
 
       docParse: function(xml) {
-        // console.debug("articles ====================");
-        // let itemBool = (xml.getElementsByTagName("item").length !== 0);
-        // console.log("item: ", itemBool);
-        // let entryBool = (xml.getElementsByTagName("entry").length !== 0);
-        // console.log("entry: ", entryBool);
-        // console.debug("titles ====================");
-        // let itemTitleBool = (xml.querySelector("item title") !== null);
-        // console.log("item title: ", itemTitleBool);
-        // let entryTitleBool = (xml.querySelector("entry title") !== null);
-        // console.log("entry title: ", entryTitleBool);
-        // console.debug("authors ====================");
-        // let authorBool = (xml.getElementsByTagName("author").length !== 0);
-        // console.log("author: ", authorBool);
-        // let creatorBool = (xml.getElementsByTagName("creator").length !== 0);
-        // console.log("creator: ", creatorBool);
-        // console.debug("links ====================");
-        // let itemLinkBool = (xml.querySelector("item link") !== null);
-        // console.log("item link: ", itemLinkBool);
-        // let entryLinkBool = (xml.querySelector("entry link") !== null);
-        // console.log("entry link: ", entryLinkBool);
-        // console.debug("dates ====================");
-        // let dateBool = (xml.getElementsByTagName("pubDate").length !== 0)
-        // console.log("dateBool: ", dateBool);
-        // let pubBool = (xml.getElementsByTagName("published").length !== 0)
-        // console.log("pubBool: ", pubBool);
         let returnObjects = [];
         let articles = [];
       // Get publication title
@@ -151,7 +142,7 @@ angular.module('app', ['ngRoute'])
           })();
         // Create new object with values and push them to the processedArticles array
           var articleObject = new CreateService.newArticle(title, author, link, date, pubTitle);
-          console.log('articleObject: ', articleObject);
+          // console.log('articleObject: ', articleObject);
           returnObjects.push(articleObject);
         })
         return returnObjects;
