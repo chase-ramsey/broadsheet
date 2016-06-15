@@ -12,7 +12,7 @@ angular.module('app', ['ngRoute'])
   .config(($routeProvider) => {
     $routeProvider
       .when('/', {
-        template: '<div>{{main.articles}}</div>',
+        templateUrl: 'app/main.html',
         controller: 'MainCtrl',
         controllerAs: 'main'
       })
