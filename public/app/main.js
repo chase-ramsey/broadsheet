@@ -37,8 +37,6 @@ angular.module('app', ['ngRoute'])
 
     main.setTopicColor = function(topic) {
       for (var key in main.topicColors) {
-        console.log("key: ", key);
-        console.log("topic", topic);
         if (key === topic) {
           return main.topicColors[key];
         }
