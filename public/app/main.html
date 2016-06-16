@@ -1,6 +1,6 @@
 <div class="container-fluid">
   <div class="row">
-    <div class="column col-lg-3" ng-repeat="article in main.articles">
+    <div class="column col-lg-3" ng-repeat="article in main.articles | orderBy: 'date':true">
       <div class="content-card">
         <div class="card-header">
           <h3>{{article.pubTitle}}</h3>
@@ -8,7 +8,7 @@
         <div class="card-text">
           <p><a href="{{article.link}}" target="_blank">{{article.title}}</a></p>
           <p>{{article.author}}</p>
-          <p>{{article.date}}</p>
+          <p>{{article.date|dateFormat}}</p>
         </div>
       </div>
     </div>

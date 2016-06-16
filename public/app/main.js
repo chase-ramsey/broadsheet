@@ -18,7 +18,7 @@ angular.module('app', ['ngRoute'])
       })
   })
   .constant('BASE_API', 'https://codename-mercury.firebaseio.com/')
-  .controller('MainCtrl', function($scope, $timeout, FeedFactory) {
+  .controller('MainCtrl', function($scope, FeedFactory) {
     const main = this;
 
     main.feeds = null;
@@ -40,7 +40,7 @@ angular.module('app', ['ngRoute'])
           })
       })
   })
-  .factory('FeedFactory', function($http, $timeout, ParseFactory, BASE_API) {
+  .factory('FeedFactory', function($http, ParseFactory, BASE_API) {
 
     let allFeeds = [];
     let processedArticles = [];
@@ -108,7 +108,7 @@ angular.module('app', ['ngRoute'])
       // Loop over each item/entry to get values for every article
         articles.forEach(function(article) {
         // Get article title
-          const title = article.querySelector('title').innerHTML;
+          const title = article.querySelector('title').textContent;
         // Get article author
           const author = (() => {
             if (article.getElementsByTagName('author').length !== 0) {
@@ -127,7 +127,7 @@ angular.module('app', ['ngRoute'])
             } else if (article.querySelector('link').textContent === '') {
               return article.querySelector('link').getAttribute('href');
             } else {
-              return article.querySelector('link').innerHTML;
+              return article.querySelector('link').textContent;
             }
           })();
         // Get article date published
@@ -157,5 +157,10 @@ angular.module('app', ['ngRoute'])
       this.link = link;
       this.date = date;
       this.pubTitle = publ;
+    }
+  })
+  .filter('dateFormat', () => {
+    return (date) => {
+      return moment(date).calendar();
     }
   })
