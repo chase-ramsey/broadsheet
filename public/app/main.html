@@ -4,9 +4,10 @@
       <div class="navbar-header">
         <a class="navbar-brand" href="#">CODENAME MERCURY</a>
       </div>
-      <form class="navbar-form navbar-left" role="search">
+      <form class="navbar-form navbar-left" role="search" ng-submit="main.filterSearch()">
         <div class="form-group">
-          <input type="text" class="form-control" placeholder="Search" ng-model="articleSearch">
+          <input type="text" class="form-control" placeholder="Search" ng-model="main.userInput">
+          <button class="btn btn-primary">Submit</button>
         </div>
       </form>
     </div>
@@ -15,7 +16,7 @@
     <h2>Loading your articles...</h2>
   </div>
   <div class="row" ng-show="main.loading">
-    <div class="column col-lg-3" ng-repeat="article in main.articles | orderBy: 'date':true | filter: articleSearch">
+    <div class="column col-lg-3" ng-repeat="article in main.articles | orderBy: 'date':true | filter: main.userSearch">
       <div class="content-card">
         <div class="card-header" ng-class="main.setTopicColor(article.topic)">
           <h3>{{article.pubTitle}}</h3>
@@ -23,6 +24,7 @@
         <div class="card-text">
           <p><a href="{{article.link}}" target="_blank">{{article.title}}</a></p>
           <p>{{article.author}}</p>
+          <p ng-bind-html="article.description"></p>
           <p>{{article.date|dateFormat}}</p>
         </div>
       </div>

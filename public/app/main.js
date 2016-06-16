@@ -1,4 +1,4 @@
-angular.module('app', ['ngRoute'])
+angular.module('app', ['ngRoute', 'ngSanitize'])
   .config(() => {
     // Initialize Firebase
     var config = {
@@ -24,6 +24,7 @@ angular.module('app', ['ngRoute'])
     main.feeds = null;
     main.articles = null;
     main.loading = false;
+    main.userSearch = '';
 
     main.topicColors = {
       'news': 'bg-blue',
@@ -35,12 +36,17 @@ angular.module('app', ['ngRoute'])
       'tech': 'bg-navy'
     }
 
-    main.setTopicColor = function(topic) {
+    main.setTopicColor = (topic) => {
       for (var key in main.topicColors) {
         if (key === topic) {
           return main.topicColors[key];
         }
       }
+    }
+
+    main.filterSearch = () => {
+      main.userSearch = main.userInput;
+      console.log("click");
     }
 
     FeedFactory.fetchFeedData()
@@ -83,6 +89,7 @@ angular.module('app', ['ngRoute'])
               .then((res) => {
                 var parse = new DOMParser();
                 var xml = parse.parseFromString(res.data, 'application/xml');
+                // console.log(`doc: `, xml);
                 var pubTitle = xml.querySelector('title').innerHTML;
                 var parseResult = ParseFactory.docParse(xml, currentTopic);
                 for (var i = 0; i < 10; i++) {
@@ -109,7 +116,7 @@ angular.module('app', ['ngRoute'])
     }
 
   })
-  .factory('ParseFactory', function(CreateService) {
+  .factory('ParseFactory', function(CreateService, $sanitize) {
 
     return {
 
@@ -159,10 +166,20 @@ angular.module('app', ['ngRoute'])
               return '';
             }
           })();
+        // Get description
+          const description = (() => {
+            if (article.querySelector('description') !== null) {
+              // var div = document.createElement('div');
+              return $sanitize(article.querySelector('description').textContent);
+            } else if (article.querySelector('content') !== null) {
+              // var div = document.createElement('div');
+              return $sanitize(article.querySelector('content').textContent);
+            }
+          })();
         // Add topic
           const topic = articleTopic;
         // Create new object with values and push them to the processedArticles array
-          var articleObject = new CreateService.newArticle(title, author, link, date, pubTitle, topic);
+          var articleObject = new CreateService.newArticle(title, author, link, description, date, pubTitle, topic);
           // console.log('articleObject: ', articleObject);
           returnObjects.push(articleObject);
         })
@@ -172,10 +189,11 @@ angular.module('app', ['ngRoute'])
     }
   })
   .service('CreateService', function() {
-    this.newArticle = function (title, author, link, date, publ, topic) {
+    this.newArticle = function (title, author, link, description, date, publ, topic) {
       this.title = title;
       this.author = author;
       this.link = link;
+      this.description = description;
       this.date = date;
       this.pubTitle = publ;
       this.topic = topic;
