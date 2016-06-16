@@ -25,6 +25,26 @@ angular.module('app', ['ngRoute'])
     main.articles = null;
     main.loading = false;
 
+    main.topicColors = {
+      'news': 'bg-blue',
+      'politics': 'bg-red',
+      'videogames': 'bg-green',
+      'music': 'bg-purple',
+      'movies': 'bg-orange',
+      'culture': 'bg-yellow',
+      'tech': 'bg-navy'
+    }
+
+    main.setTopicColor = function(topic) {
+      for (var key in main.topicColors) {
+        console.log("key: ", key);
+        console.log("topic", topic);
+        if (key === topic) {
+          return main.topicColors[key];
+        }
+      }
+    }
+
     FeedFactory.fetchFeedData()
       .then((result) => {
         return main.feeds = FeedFactory.getFeeds();
@@ -59,13 +79,14 @@ angular.module('app', ['ngRoute'])
       fetchArticles: function(feeds) {
         let promiseArray = [];
         for (var key in feeds) {
+          let currentTopic = feeds[key].topic
           promiseArray.push(
             $http.get(feeds[key].url)
               .then((res) => {
                 var parse = new DOMParser();
                 var xml = parse.parseFromString(res.data, 'application/xml');
                 var pubTitle = xml.querySelector('title').innerHTML;
-                var parseResult = ParseFactory.docParse(xml);
+                var parseResult = ParseFactory.docParse(xml, currentTopic);
                 for (var i = 0; i < 10; i++) {
                   if (parseResult[i] === undefined) {
                     return;
@@ -73,8 +94,6 @@ angular.module('app', ['ngRoute'])
                     processedArticles.push(parseResult[i]);
                   }
                 }
-                // console.log("processedArticles after parse: ", processedArticles);
-                // processedArticles.push(ParseFactory.docParse(xml));
               })
             )
         }
@@ -96,7 +115,7 @@ angular.module('app', ['ngRoute'])
 
     return {
 
-      docParse: function(xml) {
+      docParse: function(xml, articleTopic) {
         let returnObjects = [];
         let articles = [];
       // Get publication title
@@ -142,8 +161,10 @@ angular.module('app', ['ngRoute'])
               return '';
             }
           })();
+        // Add topic
+          const topic = articleTopic;
         // Create new object with values and push them to the processedArticles array
-          var articleObject = new CreateService.newArticle(title, author, link, date, pubTitle);
+          var articleObject = new CreateService.newArticle(title, author, link, date, pubTitle, topic);
           // console.log('articleObject: ', articleObject);
           returnObjects.push(articleObject);
         })
@@ -153,12 +174,13 @@ angular.module('app', ['ngRoute'])
     }
   })
   .service('CreateService', function() {
-    this.newArticle = function (title, author, link, date, publ) {
+    this.newArticle = function (title, author, link, date, publ, topic) {
       this.title = title;
       this.author = author;
       this.link = link;
       this.date = date;
       this.pubTitle = publ;
+      this.topic = topic;
     }
   })
   .filter('dateFormat', () => {

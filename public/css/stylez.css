@@ -2,12 +2,14 @@ body {
   padding-top: 70px;
 }
 
+/*===== Card styles =====*/
+
 .content-card {
   border: 1px solid #000;
   border-radius: 3px;
   margin-bottom: 10px;
   box-shadow: 0px 2px 2px rgba(0,0,0,.2);
-  background: #4183D7;
+  background: #ecf0f1;
   height: 200px;
   overflow: scroll;
 }
@@ -26,6 +28,32 @@ body {
   padding: 5px;
 }
 
-.card-text a {
-  color: #fff;
+/*===== Topic background styles =====*/
+
+.bg-green {
+  background: #2ecc71;
+}
+
+.bg-blue {
+  background: #3498db;
+}
+
+.bg-red {
+  background: #e74c3c;
+}
+
+.bg-purple {
+  background: #9b59b6;
+}
+
+.bg-yellow {
+  background: #f1c40f;
+}
+
+.bg-orange {
+  background: #e67e22;
+}
+
+.bg-navy {
+  background: #34495e;
 }

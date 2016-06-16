@@ -5,7 +5,7 @@
   <div class="row" ng-show="main.loading">
     <div class="column col-lg-3" ng-repeat="article in main.articles | orderBy: 'date':true">
       <div class="content-card">
-        <div class="card-header">
+        <div class="card-header" ng-class="main.setTopicColor(article.topic)">
           <h3>{{article.pubTitle}}</h3>
         </div>
         <div class="card-text">
