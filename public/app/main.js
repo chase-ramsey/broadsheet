@@ -23,6 +23,7 @@ angular.module('app', ['ngRoute'])
 
     main.feeds = null;
     main.articles = null;
+    main.loading = false;
 
     FeedFactory.fetchFeedData()
       .then((result) => {
@@ -35,6 +36,7 @@ angular.module('app', ['ngRoute'])
         Promise.all(promiseArr)
           .then(() => {
             main.articles = FeedFactory.getArticles();
+            main.loading = true;
             $scope.$apply();
             console.log("main.articles: ", main.articles);
           })

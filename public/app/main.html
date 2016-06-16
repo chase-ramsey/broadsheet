@@ -1,5 +1,8 @@
 <div class="container-fluid">
-  <div class="row">
+  <div class="page-header text-center" ng-hide="main.loading">
+    <h2>Loading your articles...</h2>
+  </div>
+  <div class="row" ng-show="main.loading">
     <div class="column col-lg-3" ng-repeat="article in main.articles | orderBy: 'date':true">
       <div class="content-card">
         <div class="card-header">
