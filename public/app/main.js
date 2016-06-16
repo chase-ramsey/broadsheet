@@ -98,7 +98,7 @@ angular.module('app', ['ngRoute'])
         let returnObjects = [];
         let articles = [];
       // Get publication title
-        const pubTitle = xml.querySelector('title').innerHTML;
+        const pubTitle = xml.querySelector('title').textContent;
       // Get articles by 'item' or 'entry'
         if (xml.getElementsByTagName('item').length !== 0) {
           articles = Array.from(xml.getElementsByTagName('item'));
@@ -122,9 +122,9 @@ angular.module('app', ['ngRoute'])
         // Get article link
           const link = (() => {
             if (article.querySelector('link') === null) {
-              console.log('link null');
+              console.log('link null on ', xml,   article);
               return '';
-            } else if (article.querySelector('link').innerHTML === '') {
+            } else if (article.querySelector('link').textContent === '') {
               return article.querySelector('link').getAttribute('href');
             } else {
               return article.querySelector('link').innerHTML;
@@ -133,9 +133,9 @@ angular.module('app', ['ngRoute'])
         // Get article date published
           const date = (() => {
             if (article.querySelector('pubDate') !== null) {
-              return article.querySelector('pubDate').innerHTML;
+              return new Date(article.querySelector('pubDate').innerHTML).toISOString();
             } else if (article.querySelector('published') !== null) {
-              return article.querySelector('published').innerHTML;
+              return new Date(article.querySelector('published').innerHTML).toISOString();
             } else {
               return '';
             }
