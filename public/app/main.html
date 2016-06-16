@@ -1,9 +1,21 @@
 <div class="container-fluid">
+  <div class="navbar navbar-inverse navbar-fixed-top">
+    <div class="container-fluid">
+      <div class="navbar-header">
+        <a class="navbar-brand" href="#">CODENAME MERCURY</a>
+      </div>
+      <form class="navbar-form navbar-left" role="search">
+        <div class="form-group">
+          <input type="text" class="form-control" placeholder="Search" ng-model="articleSearch">
+        </div>
+      </form>
+    </div>
+  </div>
   <div class="page-header text-center" ng-hide="main.loading">
     <h2>Loading your articles...</h2>
   </div>
   <div class="row" ng-show="main.loading">
-    <div class="column col-lg-3" ng-repeat="article in main.articles | orderBy: 'date':true">
+    <div class="column col-lg-3" ng-repeat="article in main.articles | orderBy: 'date':true | filter: articleSearch">
       <div class="content-card">
         <div class="card-header" ng-class="main.setTopicColor(article.topic)">
           <h3>{{article.pubTitle}}</h3>
