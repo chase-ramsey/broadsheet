@@ -21,6 +21,13 @@ body {
   font-weight: 500;
 }
 
+/*===== Jumbotron styles =====*/
+
+.jumbotron {
+  background: #2ecc71;
+  color: #fff;
+}
+
 /*===== Card styles =====*/
 
 .content-card {
