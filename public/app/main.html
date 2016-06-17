@@ -1,25 +1,46 @@
-<div class="container-fluid">
-  <div class="navbar navbar-inverse navbar-fixed-top">
-    <div class="container-fluid">
-      <div class="navbar-header">
-        <a class="navbar-brand" href="#">CODENAME MERCURY</a>
+<div class="navbar navbar-fixed-top">
+  <div class="container-fluid navbar-inverse">
+    <div class="navbar-header">
+      <a class="navbar-brand" href="#">CODENAME MERCURY</a>
+    </div>
+    <form class="navbar-form navbar-left" role="search">
+      <div class="form-group">
+        <input type="text" class="form-control" placeholder="Search" ng-model="main.userSearch">
+        <button class="btn btn-primary">Submit</button>
       </div>
-      <form class="navbar-form navbar-left" role="search" ng-submit="main.filterSearch()">
-        <div class="form-group">
-          <input type="text" class="form-control" placeholder="Search" ng-model="main.userInput">
-          <button class="btn btn-primary">Submit</button>
-        </div>
-      </form>
+    </form>
+    <form class="navbar-form">
+      <!-- <div class="form-group"> -->
+        <button class="btn btn-success" ng-click="(main.filtering = !main.filtering)">Filter results</button>
+        <button class="btn btn-danger" ng-click="main.clearFilters()">View all</button>
+      <!-- </div> -->
+    </form>
+  </div>
+  <div class="filters" ng-show="main.filtering">
+    <div class="container filters-content">
+      <h3>Filter by topic</h3>
+      <button class="btn" ng-class="main.setTopicColor('news')" ng-click="main.setTopicFilter('news')">News</button>
+      <button class="btn" ng-class="main.setTopicColor('politics')" ng-click="main.setTopicFilter('politics')">Politics</button>
+      <button class="btn" ng-class="main.setTopicColor('culture')" ng-click="main.setTopicFilter('culture')">Culture</button>
+      <button class="btn" ng-class="main.setTopicColor('music')" ng-click="main.setTopicFilter('music')">Music</button>
+      <button class="btn" ng-class="main.setTopicColor('movies')" ng-click="main.setTopicFilter('movies')">Movies</button>
+      <button class="btn" ng-class="main.setTopicColor('videogames')" ng-click="main.setTopicFilter('videogames')">Videogames</button>
+      <button class="btn" ng-class="main.setTopicColor('tech')" ng-click="main.setTopicFilter('tech')">Tech</button>
     </div>
   </div>
+</div>
+
+<div class="container-fluid">
+
   <div class="page-header text-center" ng-hide="main.loading">
     <h2>Loading your articles...</h2>
   </div>
+
   <div class="row" ng-show="main.loading">
-    <div class="column col-lg-3" ng-repeat="article in main.articles | orderBy: 'date':true | filter: main.userSearch">
+    <div class="column col-lg-3" ng-repeat="article in main.articles | orderBy: 'date':true | filter: main.userSearch | filter: {topic: main.userFilterTopic} | filter: {pubTitle: main.userFilterFeed}">
       <div class="content-card">
         <div class="card-header" ng-class="main.setTopicColor(article.topic)">
-          <h3>{{article.pubTitle}}</h3>
+          <h4 ng-click="main.setFeedFilter(article)"><a href="">{{article.pubTitle}}</a></h4>
         </div>
         <div class="card-text">
           <p><a href="{{article.link}}" target="_blank">{{article.title}}</a></p>
@@ -30,4 +51,5 @@
       </div>
     </div>
   </div>
+
 </div>

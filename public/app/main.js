@@ -24,7 +24,9 @@ angular.module('app', ['ngRoute', 'ngSanitize'])
     main.feeds = null;
     main.articles = null;
     main.loading = false;
+    main.filtering = false;
     main.userSearch = '';
+    main.userFilterTopic = '';
 
     main.topicColors = {
       'news': 'bg-blue',
@@ -44,9 +46,18 @@ angular.module('app', ['ngRoute', 'ngSanitize'])
       }
     }
 
-    main.filterSearch = () => {
-      main.userSearch = main.userInput;
-      console.log("click");
+    main.setTopicFilter = (topic) => {
+      main.userFilterTopic = topic;
+      main.filtering = false;
+    }
+
+    main.setFeedFilter = (article) => {
+      main.userFilterFeed = article.pubTitle;
+    }
+
+    main.clearFilters = () => {
+      main.userFilterTopic = '';
+      main.userFilterFeed = '';
     }
 
     FeedFactory.fetchFeedData()
