@@ -27,6 +27,8 @@ angular.module('app', ['ngRoute', 'ngSanitize'])
     main.filtering = false;
     main.userSearch = '';
     main.userFilterTopic = '';
+    main.spotlight = false;
+    main.spotlightItem = {};
 
     main.topicColors = {
       'news': 'bg-blue',
@@ -60,6 +62,11 @@ angular.module('app', ['ngRoute', 'ngSanitize'])
       main.userFilterFeed = '';
     }
 
+    main.setSpotlight = (bool, item) => {
+      main.spotlight = bool;
+      main.spotlightItem = item;
+    }
+
     FeedFactory.fetchFeedData()
       .then((result) => {
         return main.feeds = FeedFactory.getFeeds();
@@ -73,7 +80,7 @@ angular.module('app', ['ngRoute', 'ngSanitize'])
             main.articles = FeedFactory.getArticles();
             main.loading = true;
             $scope.$apply();
-            console.log("main.articles: ", main.articles);
+            // console.log("main.articles: ", main.articles);
           })
       })
   })
@@ -187,6 +194,7 @@ angular.module('app', ['ngRoute', 'ngSanitize'])
               return $sanitize(article.querySelector('content').textContent);
             }
           })();
+
         // Add topic
           const topic = articleTopic;
         // Create new object with values and push them to the processedArticles array

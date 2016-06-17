@@ -6,12 +6,11 @@
     <form class="navbar-form navbar-left" role="search">
       <div class="form-group">
         <input type="text" class="form-control" placeholder="Search" ng-model="main.userSearch">
-        <button class="btn btn-primary">Submit</button>
       </div>
     </form>
     <form class="navbar-form">
       <!-- <div class="form-group"> -->
-        <button class="btn btn-success" ng-click="(main.filtering = !main.filtering)">Filter results</button>
+        <button class="btn btn-success" ng-click="(main.filtering = !main.filtering)">Topics</button>
         <button class="btn btn-danger" ng-click="main.clearFilters()">View all</button>
       <!-- </div> -->
     </form>
@@ -34,19 +33,45 @@
 
   <div class="page-header text-center" ng-hide="main.loading">
     <h2>Loading your articles...</h2>
+    <p>If your articles are taking too long too appear, try refreshing the page.</p>
   </div>
 
   <div class="row" ng-show="main.loading">
     <div class="column col-lg-3" ng-repeat="article in main.articles | orderBy: 'date':true | filter: main.userSearch | filter: {topic: main.userFilterTopic} | filter: {pubTitle: main.userFilterFeed}">
-      <div class="content-card">
+      <div class="content-card" ng-click="main.setSpotlight(true, article)">
         <div class="card-header" ng-class="main.setTopicColor(article.topic)">
           <h4 ng-click="main.setFeedFilter(article)"><a href="">{{article.pubTitle}}</a></h4>
         </div>
         <div class="card-text">
           <p><a href="{{article.link}}" target="_blank">{{article.title}}</a></p>
           <p>{{article.author}}</p>
-          <p ng-bind-html="article.description"></p>
-          <p>{{article.date|dateFormat}}</p>
+          <!-- <p ng-bind-html="article.description"></p> -->
+          <p class="date">{{article.date|dateFormat}}</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="spotlight" ng-show="main.spotlight" ng-click="main.setSpotlight(false, '')">
+    <div class="container">
+      <div class="row">
+        <div class="column col-lg-6">
+          <div class="content-card">
+            <div class="card-header" ng-class="main.setTopicColor(main.spotlightItem.topic)">
+              <h4 ng-click="main.setFeedFilter(article)"><a href="">{{main.spotlightItem.pubTitle}}</a></h4>
+            </div>
+            <div class="card-text">
+              <p><a href="{{main.spotlightItem.link}}" target="_blank">{{main.spotlightItem.title}}</a></p>
+              <p>{{main.spotlightItem.author}}</p>
+              <p ng-bind-html="main.spotlightItem.description"></p>
+              <p class="date">{{main.spotlightItem.date|dateFormat}}</p>
+            </div>
+          </div>
+        </div>
+        <div class="column col-lg-6 comments-container">
+          <h3>Comments</h3>
+          <div class="comments">
+          </div>
         </div>
       </div>
     </div>
