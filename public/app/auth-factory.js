@@ -8,6 +8,20 @@ angular.module('app')
         return firebase.auth().signInWithEmailAndPassword(email, password);
       },
 
+      logoutUser: () => {
+        return firebase.auth().signOut();
+      },
+
+      registerUser: (email, password) => {
+        return firebase.auth().createUserWithEmailAndPassword(email, password);
+      },
+
+      createUsername: (user, username) => {
+        return user.updateProfile({
+          displayName: username
+        })
+      },
+
       setLoggedUser: (user) => {
         loggedUser = user;
       },

@@ -39,9 +39,9 @@ angular.module('app')
     main.loadArticles();
 
     firebase.auth().onAuthStateChanged((res) => {
-      AuthFactory.setLoggedUser(res);
-      main.user = AuthFactory.getLoggedUser();
-      if (main.user) {
+      if (res) {
+        AuthFactory.setLoggedUser(firebase.auth().currentUser);
+        main.user = AuthFactory.getLoggedUser();
         console.log("main.user: ", main.user);
         main.login = true;
       }

@@ -1,8 +1,10 @@
 angular.module('app')
-  .controller('LogoutCtrl', function($location) {
+  .controller('LogoutCtrl', function($location, $timeout, AuthFactory) {
     const auth = this;
 
-    firebase.auth().signOut();
-    $location.path('/');
+    AuthFactory.logoutUser()
+      .then(() => {
+        $timeout($location.path('/'));
+      })
 
   })
