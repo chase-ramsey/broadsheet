@@ -1,0 +1,102 @@
+<div class="navbar navbar-fixed-top">
+  <div class="container-fluid navbar-inverse">
+    <div class="navbar-header">
+      <a class="navbar-brand" href="#">CODENAME MERCURY</a>
+    </div>
+    <form class="navbar-form navbar-left" role="search">
+      <div class="form-group">
+        <input type="text" class="form-control" placeholder="Search" ng-model="main.userSearch">
+      </div>
+    </form>
+    <form class="navbar-form">
+      <!-- <div class="form-group"> -->
+        <button class="btn btn-success" ng-click="(main.filtering = !main.filtering)">Topics</button>
+        <button class="btn btn-warning" ng-click="main.clearFilters()">View all</button>
+      <!-- </div> -->
+    </form>
+  </div>
+  <div class="filters" ng-show="main.filtering">
+    <div class="container filters-content">
+      <h3>Filter by topic</h3>
+      <button class="btn" ng-class="main.setTopicColor('news')" ng-click="main.setTopicFilter('news')">News</button>
+      <button class="btn" ng-class="main.setTopicColor('politics')" ng-click="main.setTopicFilter('politics')">Politics</button>
+      <button class="btn" ng-class="main.setTopicColor('culture')" ng-click="main.setTopicFilter('culture')">Culture</button>
+      <button class="btn" ng-class="main.setTopicColor('music')" ng-click="main.setTopicFilter('music')">Music</button>
+      <button class="btn" ng-class="main.setTopicColor('movies')" ng-click="main.setTopicFilter('movies')">Movies</button>
+      <button class="btn" ng-class="main.setTopicColor('videogames')" ng-click="main.setTopicFilter('videogames')">Videogames</button>
+      <button class="btn" ng-class="main.setTopicColor('tech')" ng-click="main.setTopicFilter('tech')">Tech</button>
+    </div>
+  </div>
+</div>
+
+<div class="container-fluid" ng-click="(main.filtering = false)">
+
+  <div class="page-header text-center" ng-hide="main.loading">
+    <h2>Loading your articles...</h2>
+    <p>If your articles are taking too long too appear, try refreshing the page.</p>
+  </div>
+
+  <div class="row" ng-show="main.loading">
+
+    <div class="jumbotron">
+      <div class="container-fluid">
+        <div class="jumbo-header">
+          <h1>Latest news</h1>
+        </div>
+  <!--       <div class="jumbo-text pull-right">
+          <p>Click an article to read more and add comments.</p>
+          <p>Click the name of a publication to view all news from that outlet.</p>
+          <p>Click the "Topics" button in the navbar to browse by topic.</p>
+          <p>Search by keyword using the box in the navbar.</p>
+        </div> -->
+      </div>
+    </div>
+
+    <div class="column col-lg-3 col-md-4 col-sm-6 col-xs-12" ng-repeat="article in main.articles | orderBy: 'date':true | filter: main.userSearch | filter: {topic: main.userFilterTopic} | filter: {pubTitle: main.userFilterFeed}">
+      <div class="content-card" >
+        <div class="card-header" ng-class="main.setTopicColor(article.topic)">
+          <h4 ng-click="main.setFeedFilter(article)"><a href="">{{article.pubTitle}}</a></h4>
+        </div>
+        <div class="card-text" ng-click="main.setSpotlight(true, article)">
+          <p><a href="{{article.link}}" target="_blank">{{article.title}}</a></p>
+          <p>{{article.author}}</p>
+          <!-- <p ng-bind-html="article.description"></p> -->
+          <p class="date">{{article.date|dateFormat}}</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="spotlight" ng-show="main.spotlight">
+    <div class="container">
+      <div class="row">
+        <div class="column col-lg-6 col-md-6 col-sm-12 col-xs-12">
+          <div class="content-card">
+            <div class="card-header" ng-class="main.setTopicColor(main.spotlightItem.topic)">
+              <h4 ng-click="main.setFeedFilter(article)"><a href="">{{main.spotlightItem.pubTitle}}</a></h4>
+            </div>
+            <div class="card-text">
+              <p><a href="{{main.spotlightItem.link}}" target="_blank">{{main.spotlightItem.title}}</a></p>
+              <p>{{main.spotlightItem.author}}</p>
+              <p ng-bind-html="main.spotlightItem.description"></p>
+              <p class="date">{{main.spotlightItem.date|dateFormat}}</p>
+            </div>
+          </div>
+        </div>
+        <div class="column col-lg-6 col-md-6 col-sm-12 col-xs-12 comments-container">
+          <h3>Comments</h3>
+          <div class="comments">
+          </div>
+          <form class="form-inline">
+            <div class="form-group">
+              <input type="text" id="comment-input" class="form-control" placeholder="Type new comment here">
+            </div>
+            <button class="btn btn-primary">Submit</button>
+          </form>
+        </div>
+      </div>
+      <button class="btn btn-danger" ng-click="main.setSpotlight(false, '')">Close Spotlight</button>
+    </div>
+  </div>
+
+</div>
