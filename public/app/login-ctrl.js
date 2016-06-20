@@ -1,4 +1,7 @@
 angular.module('app')
-  .controller('LoginCtrl', function() {
+  .controller('LoginCtrl', function($location) {
     const auth = this;
+
+    auth.login = true;
+
   })

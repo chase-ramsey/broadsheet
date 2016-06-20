@@ -11,4 +11,9 @@ angular.module('app')
         controller: 'LoginCtrl',
         controllerAs: 'auth'
       })
+      .when('/register', {
+        templateUrl: 'app/login.html',
+        controller: 'RegisterCtrl',
+        controllerAs: 'auth'
+      })
   })
