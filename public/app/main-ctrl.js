@@ -1,16 +1,20 @@
 angular.module('app')
-  .controller('MainCtrl', function($scope, FeedFactory) {
+  .controller('MainCtrl', function($scope, FeedFactory, AuthFactory) {
     const main = this;
 
     main.feeds = null;
     main.articles = null;
     main.loading = false;
+
     main.filtering = false;
     main.userSearch = '';
     main.userFilterTopic = '';
+
     main.spotlight = false;
     main.spotlightItem = {};
+
     main.login = false;
+    main.user = null;
 
     main.loadArticles = () => {
       main.loading = false;
@@ -33,6 +37,13 @@ angular.module('app')
     }
 
     main.loadArticles();
+
+    firebase.auth().onAuthStateChanged((res) => {
+      AuthFactory.setLoggedUser(res);
+      main.user = AuthFactory.getLoggedUser();
+      console.log("main.user: ", main.user);
+      main.login = true;
+    })
 
     main.topicColors = {
       'news': 'bg-blue',

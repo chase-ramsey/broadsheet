@@ -2,6 +2,6 @@ angular.module('app')
   .controller('RegisterCtrl', function($location) {
     const auth = this;
 
-    auth.login = false;
+    auth.loginForm = false;
 
   })
