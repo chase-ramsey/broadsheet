@@ -6,4 +6,9 @@ angular.module('app')
         controller: 'MainCtrl',
         controllerAs: 'main'
       })
+      .when('/login', {
+        templateUrl: 'app/login.html',
+        controller: 'LoginCtrl',
+        controllerAs: 'auth'
+      })
   })
