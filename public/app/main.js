@@ -17,7 +17,7 @@ angular.module('app', ['ngRoute', 'ngSanitize'])
         controllerAs: 'main'
       })
   })
-  .constant('BASE_API', 'https://codename-mercury.firebaseio.com/')
+  .constant('BASE_API', 'https://codename-mercury.firebaseio.com')
   .controller('MainCtrl', function($scope, FeedFactory) {
     const main = this;
 
