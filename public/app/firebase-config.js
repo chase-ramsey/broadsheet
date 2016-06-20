@@ -1,4 +1,4 @@
-angular.module('app', ['ngRoute', 'ngSanitize'])
+angular.module('app')
   .config(() => {
     // Initialize Firebase
     var config = {
@@ -8,13 +8,5 @@ angular.module('app', ['ngRoute', 'ngSanitize'])
       storageBucket: "",
     };
     firebase.initializeApp(config);
-  })
-  .config(($routeProvider) => {
-    $routeProvider
-      .when('/', {
-        templateUrl: 'app/main.html',
-        controller: 'MainCtrl',
-        controllerAs: 'main'
-      })
   })
   .constant('BASE_API', 'https://codename-mercury.firebaseio.com')
