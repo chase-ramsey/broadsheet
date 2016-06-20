@@ -15,6 +15,7 @@ angular.module('app')
 
       fetchArticles: function(feeds) {
         let promiseArray = [];
+        processedArticles = [];
         for (var key in feeds) {
           let currentTopic = feeds[key].topic
           promiseArray.push(

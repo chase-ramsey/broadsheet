@@ -12,6 +12,28 @@ angular.module('app')
     main.spotlightItem = {};
     main.login = false;
 
+    main.loadArticles = () => {
+      main.loading = false;
+      FeedFactory.fetchFeedData()
+        .then((result) => {
+          return main.feeds = FeedFactory.getFeeds();
+        })
+        .then((feeds) => {
+          return FeedFactory.fetchArticles(feeds);
+        })
+        .then((promiseArr) => {
+          Promise.all(promiseArr)
+            .then(() => {
+              main.articles = FeedFactory.getArticles();
+              main.loading = true;
+              $scope.$apply();
+              // console.log("main.articles: ", main.articles);
+            })
+        })
+    }
+
+    main.loadArticles();
+
     main.topicColors = {
       'news': 'bg-blue',
       'politics': 'bg-red',
@@ -49,20 +71,4 @@ angular.module('app')
       main.spotlightItem = item;
     }
 
-    FeedFactory.fetchFeedData()
-      .then((result) => {
-        return main.feeds = FeedFactory.getFeeds();
-      })
-      .then((feeds) => {
-        return FeedFactory.fetchArticles(feeds);
-      })
-      .then((promiseArr) => {
-        Promise.all(promiseArr)
-          .then(() => {
-            main.articles = FeedFactory.getArticles();
-            main.loading = true;
-            $scope.$apply();
-            // console.log("main.articles: ", main.articles);
-          })
-      })
   })

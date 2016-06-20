@@ -1,7 +1,7 @@
 <div class="navbar navbar-fixed-top">
   <div class="container-fluid navbar-inverse">
     <div class="navbar-header">
-      <a class="navbar-brand" href="#">CODENAME MERCURY</a>
+      <a class="navbar-brand" href="#/">CODENAME MERCURY</a>
     </div>
     <form class="navbar-form navbar-left" role="search">
       <div class="form-group">
@@ -11,6 +11,7 @@
       <ul class="nav navbar-nav">
         <li><a href="" ng-click="(main.filtering = !main.filtering)">Topics</a></li>
         <li><a href="" ng-click="main.clearFilters()">View all</a></li>
+        <li><a href="" ng-click="main.loadArticles()">Refresh</a></li>
       </ul>
       <ul class="nav navbar-nav navbar-right">
         <li><a href="#/login" ng-show="!(main.login)">Login</a></li>
@@ -35,26 +36,20 @@
 
 <div class="container-fluid" ng-click="(main.filtering = false)">
 
+  <div class="jumbotron">
+    <div class="container-fluid">
+      <div class="jumbo-header">
+        <h1>Latest news</h1>
+      </div>
+    </div>
+  </div>
+
   <div class="page-header text-center" ng-hide="main.loading">
     <h2>Loading your articles...</h2>
     <p>If your articles are taking too long too appear, try refreshing the page.</p>
   </div>
 
   <div class="row" ng-show="main.loading">
-
-    <div class="jumbotron">
-      <div class="container-fluid">
-        <div class="jumbo-header">
-          <h1>Latest news</h1>
-        </div>
-  <!--       <div class="jumbo-text pull-right">
-          <p>Click an article to read more and add comments.</p>
-          <p>Click the name of a publication to view all news from that outlet.</p>
-          <p>Click the "Topics" button in the navbar to browse by topic.</p>
-          <p>Search by keyword using the box in the navbar.</p>
-        </div> -->
-      </div>
-    </div>
 
     <div class="column col-lg-3 col-md-4 col-sm-6 col-xs-12" ng-repeat="article in main.articles | orderBy: 'date':true | filter: main.userSearch | filter: {topic: main.userFilterTopic} | filter: {pubTitle: main.userFilterFeed}">
       <div class="content-card" >
