@@ -10,6 +10,7 @@ angular.module('app')
     main.userFilterTopic = '';
     main.spotlight = false;
     main.spotlightItem = {};
+    main.login = false;
 
     main.topicColors = {
       'news': 'bg-blue',

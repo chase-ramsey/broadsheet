@@ -8,12 +8,15 @@
         <input type="text" class="form-control" placeholder="Search" ng-model="main.userSearch">
       </div>
     </form>
-    <form class="navbar-form">
-      <!-- <div class="form-group"> -->
-        <button class="btn btn-success" ng-click="(main.filtering = !main.filtering)">Topics</button>
-        <button class="btn btn-warning" ng-click="main.clearFilters()">View all</button>
-      <!-- </div> -->
-    </form>
+      <ul class="nav navbar-nav">
+        <li><a href="" ng-click="(main.filtering = !main.filtering)">Topics</a></li>
+        <li><a href="" ng-click="main.clearFilters()">View all</a></li>
+      </ul>
+      <ul class="nav navbar-nav navbar-right">
+        <li><a href="" ng-show="!(main.login)">Login</a></li>
+        <li><a href="" ng-show="main.login">User profile</a></li>
+        <li><a href="" ng-show="main.login">Logout</a></li>
+      </ul>
   </div>
   <div class="filters" ng-show="main.filtering">
     <div class="container filters-content">

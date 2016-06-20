@@ -21,6 +21,10 @@ body {
   font-weight: 500;
 }
 
+.navbar-form {
+  display: inline;
+}
+
 /*===== Jumbotron styles =====*/
 
 .jumbotron {
