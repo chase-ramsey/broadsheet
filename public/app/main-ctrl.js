@@ -41,8 +41,10 @@ angular.module('app')
     firebase.auth().onAuthStateChanged((res) => {
       AuthFactory.setLoggedUser(res);
       main.user = AuthFactory.getLoggedUser();
-      console.log("main.user: ", main.user);
-      main.login = true;
+      if (main.user) {
+        console.log("main.user: ", main.user);
+        main.login = true;
+      }
     })
 
     main.topicColors = {

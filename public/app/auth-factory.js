@@ -4,6 +4,10 @@ angular.module('app')
 
     return {
 
+      loginUser: (email, password) => {
+        return firebase.auth().signInWithEmailAndPassword(email, password);
+      },
+
       setLoggedUser: (user) => {
         loggedUser = user;
       },

@@ -1,15 +1,14 @@
 angular.module('app')
-  .controller('LoginCtrl', function($location) {
+  .controller('LoginCtrl', function($location, $timeout, AuthFactory) {
     const auth = this;
 
     auth.loginForm = true;
 
     auth.login = (email, password) => {
-      firebase.auth().signInWithEmailAndPassword(email,password)
+      AuthFactory.loginUser(email,password)
         .then(() => {
-          $location.path('/');
-        })
-        .catch(console.log);
+          $timeout($location.path('/'));
+        });
     }
 
   })

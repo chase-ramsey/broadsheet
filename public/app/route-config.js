@@ -16,4 +16,9 @@ angular.module('app')
         controller: 'RegisterCtrl',
         controllerAs: 'auth'
       })
+      .when('/logout', {
+        template: '',
+        controller: 'LogoutCtrl',
+        controllerAs: 'auth'
+      })
   })

@@ -17,7 +17,7 @@
         <li><a href="#/login" ng-show="!(main.login)">Login</a></li>
         <li><a href="#/register" ng-show="!(main.login)">Register</a></li>
         <li><a href="" ng-show="main.login">{{main.user.email}}</a></li>
-        <li><a href="" ng-show="main.login">Logout</a></li>
+        <li><a href="#/logout" ng-show="main.login">Logout</a></li>
       </ul>
   </div>
   <div class="filters" ng-show="main.filtering">
@@ -45,8 +45,8 @@
   </div>
 
   <div class="page-header text-center" ng-hide="main.loading">
-    <h2>Loading your articles...</h2>
-    <p>If your articles are taking too long too appear, try refreshing the page.</p>
+    <h2>Loading latest articles...</h2>
+    <p>If articles are taking too long too appear, try refreshing the page.</p>
   </div>
 
   <div class="row" ng-show="main.loading">
