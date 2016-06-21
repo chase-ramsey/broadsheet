@@ -1,9 +1,10 @@
 angular.module('app')
-  .controller('ProfileCtrl', function($location, AuthFactory, UserFactory, FeedFactory) {
+  .controller('ProfileCtrl', function($scope, $location, AuthFactory, UserFactory, FeedFactory) {
     const profile = this;
 
     profile.user = AuthFactory.getLoggedUser();
-    profile.current = null;
+    profile.current = {};
+    profile.currentKey = null,
     profile.articles = null;
 
     profile.loading = true;
@@ -19,35 +20,40 @@ angular.module('app')
     UserFactory.fetchProfiles()
       .then((res) => {
         console.log("res: ", res);
-        console.log("profile.user: ", profile.user);
         UserFactory.setAllProfiles(res.data);
         for (var key in res.data) {
           if (profile.user === null) {
             $location.path('/');
           } else if (res.data[key].uid === profile.user.uid) {
-              profile.current = res.data[key];
+              profile.current[key] = res.data[key];
+              profile.currentKey = Object.keys(profile.current)[0];
               console.log("profile.current: ", profile.current);
-              profile.checkUserProfiles(profile.current);
+              profile.checkUserProfiles(profile.current, profile.currentKey);
           }
         }
       })
 
-    profile.checkUserProfiles = (current) => {
-      if (!profile.feeds) {
+    profile.checkUserProfiles = (current, key) => {
+      if (!current[key].feeds) {
         profile.loading = false;
         profile.noFeeds = true;
       } else {
-        FeedFactory.fetchArticles(profile.feeds)
-          .then((promiseArr) => {
-            Promise.all(promiseArr)
-              .then(() => {
-                profile.articles = FeedFactory.getArticles();
-                profile.loading = false;
-                profile.noFeeds = false;
-                $scope.$apply();
-              })
-          })
+        profile.loadArticles();
       }
+    }
+
+    profile.loadArticles = () => {
+      if (profile.noFeeds) {
+        return;
+      }
+      var promises = FeedFactory.fetchArticles(profile.current[profile.currentKey].feeds);
+      Promise.all(promises)
+        .then(() => {
+          profile.articles = FeedFactory.getArticles();
+          profile.loading = false;
+          profile.noFeeds = false;
+          $scope.$apply();
+        })
     }
 
     profile.topicColors = {
@@ -69,6 +75,9 @@ angular.module('app')
     }
 
     profile.setTopicFilter = (topic) => {
+      if (profile.noFeeds) {
+        return;
+      }
       profile.userFilterFeed = '';
       profile.userFilterTopic = topic;
       profile.filtering = false;
