@@ -21,4 +21,9 @@ angular.module('app')
         controller: 'LogoutCtrl',
         controllerAs: 'auth'
       })
+      .when('/profile/:username', {
+        templateUrl: 'app/profile.html',
+        controller: 'ProfileCtrl',
+        controllerAs: 'profile'
+      })
   })

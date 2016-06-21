@@ -27,8 +27,13 @@ body {
 
 /*===== Jumbotron styles =====*/
 
-.jumbotron {
+.jumbo-main {
   background: #2ecc71;
+  color: #fff;
+}
+
+.jumbo-profile {
+  background: #3498db;
   color: #fff;
 }
 
