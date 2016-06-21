@@ -1,8 +1,9 @@
 angular.module('app')
-  .controller('ProfileCtrl', function($scope, $location, AuthFactory, UserFactory, FeedFactory) {
+  .controller('ProfileCtrl', function($scope, $location, $http, $route, AuthFactory, UserFactory, FeedFactory, BASE_API) {
     const profile = this;
 
     profile.user = AuthFactory.getLoggedUser();
+    profile.allFeeds = FeedFactory.getFeeds();
     profile.current = {};
     profile.currentKey = null,
     profile.articles = null;
@@ -44,6 +45,7 @@ angular.module('app')
 
     profile.loadArticles = () => {
       if (profile.noFeeds) {
+        console.log("no feeds =============");
         return;
       }
       var promises = FeedFactory.fetchArticles(profile.current[profile.currentKey].feeds);
@@ -88,6 +90,7 @@ angular.module('app')
     }
 
     profile.clearFilters = () => {
+      profile.userSearch = '';
       profile.userFilterTopic = '';
       profile.userFilterFeed = '';
     }
@@ -95,6 +98,30 @@ angular.module('app')
     profile.setSpotlight = (bool, item) => {
       profile.spotlight = bool;
       profile.spotlightItem = item;
+    }
+
+    profile.removeFeed = (feed) => {
+      delete profile.newFeeds[feed];
+    }
+
+    profile.subscribe = (feeds) => {
+      console.log("newFeeds: ", profile.newFeeds);
+      let promiseArr = [];
+      for (var key in feeds) {
+        console.log("feeds[key]", feeds[key]);
+        promiseArr.push($http.post(`${BASE_API}/profiles/${profile.currentKey}/feeds.json`, feeds[key]));
+      }
+      Promise.all(promiseArr)
+        .then(() => {
+          $route.reload();
+          // profile.loadArticles();
+        })
+        .catch(console.log);
+      // $http.post(`${BASE_API}/profiles/${profile.currentKey}/feeds.json`)
+      //   .then(() => {
+      //     profile.loadArticles();
+      //   })
+      //   .catch(console.log);
     }
 
   })

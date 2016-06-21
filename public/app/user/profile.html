@@ -46,9 +46,34 @@
     <p>If your articles are taking too long too appear, try refreshing the page.</p>
   </div>
 
-  <div class="page-header text-center" ng-show="!(profile.loading) && profile.noFeeds">
-    <h2>Looks like you haven't subscribed to any feeds yet</h2>
-    <p>Add some feeds...</p>
+  <div class="no-feeds" ng-show="!(profile.loading) && profile.noFeeds">
+    <div class="page-header text-center">
+      <h2>Looks like you haven't subscribed to any feeds yet</h2>
+    </div>
+    <div class="add-user-feeds container">
+      <h3>Subscribe</h3>
+      <div class="row">
+        <div class="column col-lg-3" ng-repeat="feed in profile.allFeeds">
+          <div class="feed-card">
+            <h5>{{feed.name}}</h5>
+            <p ng-class="profile.setTopicColor(feed.topic)">{{feed.topic}}</p>
+            <button type="button" class="btn btn-default" aria-label="Add" ng-click="profile.newFeeds[feed.key] = feed" ng-disabled="(profile.newFeeds[feed.key])">
+              <span class="glyphicon glyphicon-ok" aria-hidden="true"></span>
+            </button>
+            <button type="button" class="btn btn-default" aria-label="Remove" ng-click="profile.removeFeed(feed.key)" ng-disabled="!(profile.newFeeds[feed.key])">
+              <span class="glyphicon glyphicon-remove" aria-hidden="true"></span>
+            </button>
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="column col-lg-8 col-lg-offset-2">
+          <button class="subscribe btn btn-primary" ng-click="profile.subscribe(profile.newFeeds)">
+            <h2>Subscribe</h2>
+          </button>
+        </div>
+      </div>
+    </div>
   </div>
 
   <div class="row" ng-show="!(profile.loading) && !(profile.noFeeds)">

@@ -76,6 +76,7 @@ angular.module('app')
     }
 
     main.clearFilters = () => {
+      main.userSearch = '';
       main.userFilterTopic = '';
       main.userFilterFeed = '';
     }
