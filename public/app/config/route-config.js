@@ -2,17 +2,17 @@ angular.module('app')
   .config(($routeProvider) => {
     $routeProvider
       .when('/', {
-        templateUrl: 'app/main.html',
+        templateUrl: 'app/main/main.html',
         controller: 'MainCtrl',
         controllerAs: 'main'
       })
       .when('/login', {
-        templateUrl: 'app/login.html',
+        templateUrl: 'app/auth/login.html',
         controller: 'LoginCtrl',
         controllerAs: 'auth'
       })
       .when('/register', {
-        templateUrl: 'app/login.html',
+        templateUrl: 'app/auth/login.html',
         controller: 'RegisterCtrl',
         controllerAs: 'auth'
       })
@@ -22,7 +22,7 @@ angular.module('app')
         controllerAs: 'auth'
       })
       .when('/profile/:username', {
-        templateUrl: 'app/profile.html',
+        templateUrl: 'app/user/profile.html',
         controller: 'ProfileCtrl',
         controllerAs: 'profile'
       })

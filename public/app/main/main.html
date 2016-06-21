@@ -44,12 +44,12 @@
     </div>
   </div>
 
-  <div class="page-header text-center" ng-hide="main.loading">
-    <h2>Loading latest articles...</h2>
-    <p>If articles are taking too long too appear, try refreshing the page.</p>
+  <div class="page-header text-center" ng-hide="!(main.loading)">
+    <h2>Loading fresh articles...</h2>
+    <p>If your articles are taking too long too appear, try refreshing the page.</p>
   </div>
 
-  <div class="row" ng-show="main.loading">
+  <div class="row" ng-show="!(main.loading)">
 
     <div class="column col-lg-3 col-md-4 col-sm-6 col-xs-12" ng-repeat="article in main.articles | orderBy: 'date':true | filter: main.userSearch | filter: {topic: main.userFilterTopic} | filter: {pubTitle: main.userFilterFeed}">
       <div class="content-card" >

@@ -4,7 +4,7 @@ angular.module('app')
 
     main.feeds = null;
     main.articles = null;
-    main.loading = false;
+    main.loading = true;
 
     main.filtering = false;
     main.userSearch = '';
@@ -17,7 +17,7 @@ angular.module('app')
     main.user = null;
 
     main.loadArticles = () => {
-      main.loading = false;
+      main.loading = true;
       FeedFactory.fetchFeedData()
         .then((result) => {
           return main.feeds = FeedFactory.getFeeds();
@@ -29,7 +29,7 @@ angular.module('app')
           Promise.all(promiseArr)
             .then(() => {
               main.articles = FeedFactory.getArticles();
-              main.loading = true;
+              main.loading = false;
               $scope.$apply();
               // console.log("main.articles: ", main.articles);
             })
@@ -66,6 +66,7 @@ angular.module('app')
     }
 
     main.setTopicFilter = (topic) => {
+      main.userFilterFeed = '';
       main.userFilterTopic = topic;
       main.filtering = false;
     }

@@ -5,7 +5,7 @@ angular.module('app')
     auth.loginForm = true;
 
     auth.login = (email, password) => {
-      AuthFactory.loginUser(email,password)
+      AuthFactory.loginUser(email, password)
         .then(() => {
           $timeout($location.path('/'));
         });

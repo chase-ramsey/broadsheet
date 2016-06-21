@@ -1,5 +1,5 @@
 angular.module('app')
-  .controller('RegisterCtrl', function($location, $timeout, AuthFactory) {
+  .controller('RegisterCtrl', function($location, $timeout, $http, AuthFactory, BASE_API) {
     const auth = this;
 
     auth.loginForm = false;
@@ -16,6 +16,11 @@ angular.module('app')
           $timeout(() => {
             AuthFactory.loginUser(email, password)
               .then((res) => {
+                $http.post(`${BASE_API}/profiles.json`, {
+                  uid: res.uid
+                })
+                .then(console.log)
+                .catch(console.log);
                 AuthFactory.createUsername(res, username)
                   .then(() => {
                     $timeout(() => {
