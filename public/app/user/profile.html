@@ -9,9 +9,10 @@
       </div>
     </form>
     <ul class="nav navbar-nav">
-      <li><a href="" ng-click="(profile.filtering = !profile.filtering)">Topics</a></li>
-      <li><a href="" ng-click="profile.clearFilters()">View all</a></li>
-      <li><a href="" ng-click="profile.loadArticles()">Refresh</a></li>
+      <li><a href="#/">Latest</a></li>
+      <li ng-hide="profile.noFeeds"><a href="" ng-click="(profile.filtering = !profile.filtering)">Topics</a></li>
+      <li ng-hide="profile.noFeeds"><a href="" ng-click="profile.clearFilters()">View all</a></li>
+      <li ng-hide="profile.noFeeds"><a href="" ng-click="profile.loadArticles()">Refresh</a></li>
     </ul>
     <ul class="nav navbar-nav navbar-right">
       <li><a href="#/logout">Logout</a></li>

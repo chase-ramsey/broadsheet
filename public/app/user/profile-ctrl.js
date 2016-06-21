@@ -20,7 +20,6 @@ angular.module('app')
 
     UserFactory.fetchProfiles()
       .then((res) => {
-        console.log("res: ", res);
         UserFactory.setAllProfiles(res.data);
         for (var key in res.data) {
           if (profile.user === null) {
@@ -45,7 +44,6 @@ angular.module('app')
 
     profile.loadArticles = () => {
       if (profile.noFeeds) {
-        console.log("no feeds =============");
         return;
       }
       var promises = FeedFactory.fetchArticles(profile.current[profile.currentKey].feeds);
@@ -114,14 +112,8 @@ angular.module('app')
       Promise.all(promiseArr)
         .then(() => {
           $route.reload();
-          // profile.loadArticles();
         })
         .catch(console.log);
-      // $http.post(`${BASE_API}/profiles/${profile.currentKey}/feeds.json`)
-      //   .then(() => {
-      //     profile.loadArticles();
-      //   })
-      //   .catch(console.log);
     }
 
   })
