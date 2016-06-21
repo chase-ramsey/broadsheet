@@ -20,6 +20,13 @@ angular.module('app')
 
       getCurrentProfile: () => {
         return currentProfile;
+      },
+
+      postNewFeeds: (userFeeds) => {
+        let promiseArr = [];
+        for (var key in userFeeds) {
+          promiseArr.push($http.post(`${BASE_API}/profiles/${profile.currentKey}/feeds.json`, userFeeds[key]));
+        }
       }
     }
   })

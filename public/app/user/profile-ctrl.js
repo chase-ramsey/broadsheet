@@ -1,9 +1,8 @@
 angular.module('app')
-  .controller('ProfileCtrl', function($scope, $location, $http, $route, AuthFactory, UserFactory, FeedFactory, BASE_API) {
+  .controller('ProfileCtrl', function($scope, $location, $route, AuthFactory, UserFactory, FeedFactory) {
     const profile = this;
 
     profile.user = AuthFactory.getLoggedUser();
-    profile.allFeeds = FeedFactory.getFeeds();
     profile.current = {};
     profile.currentKey = null,
     profile.articles = null;
@@ -103,17 +102,14 @@ angular.module('app')
     }
 
     profile.subscribe = (feeds) => {
-      console.log("newFeeds: ", profile.newFeeds);
-      let promiseArr = [];
-      for (var key in feeds) {
-        console.log("feeds[key]", feeds[key]);
-        promiseArr.push($http.post(`${BASE_API}/profiles/${profile.currentKey}/feeds.json`, feeds[key]));
-      }
-      Promise.all(promiseArr)
-        .then(() => {
-          $route.reload();
+      UserFactory.postNewFeeds(feeds)
+        .then((promiseArr) => {
+          Promise.all(promiseArr)
+            .then(() => {
+              $route.reload();
+            })
+            .catch(console.log)
         })
-        .catch(console.log);
     }
 
   })
