@@ -21,13 +21,13 @@
   <div class="filters" ng-show="profile.filtering">
     <div class="container filters-content">
       <h3>Filter by topic</h3>
-      <button class="btn" ng-class="profile.setTopicColor('news')" ng-click="profile.setTopicFilter('news')">News</button>
-      <button class="btn" ng-class="profile.setTopicColor('politics')" ng-click="profile.setTopicFilter('politics')">Politics</button>
-      <button class="btn" ng-class="profile.setTopicColor('culture')" ng-click="profile.setTopicFilter('culture')">Culture</button>
-      <button class="btn" ng-class="profile.setTopicColor('music')" ng-click="profile.setTopicFilter('music')">Music</button>
-      <button class="btn" ng-class="profile.setTopicColor('movies')" ng-click="profile.setTopicFilter('movies')">Movies</button>
-      <button class="btn" ng-class="profile.setTopicColor('videogames')" ng-click="profile.setTopicFilter('videogames')">Videogames</button>
-      <button class="btn" ng-class="profile.setTopicColor('tech')" ng-click="profile.setTopicFilter('tech')">Tech</button>
+      <button class="btn" ng-class="profile.setTopicColor('news')" ng-click="profile.setTopicFilter('news')" ng-show="profile.checkTopics('news')">News</button>
+      <button class="btn" ng-class="profile.setTopicColor('politics')" ng-click="profile.setTopicFilter('politics')" ng-show="profile.checkTopics('politics')">Politics</button>
+      <button class="btn" ng-class="profile.setTopicColor('culture')" ng-click="profile.setTopicFilter('culture')" ng-show="profile.checkTopics('culture')">Culture</button>
+      <button class="btn" ng-class="profile.setTopicColor('music')" ng-click="profile.setTopicFilter('music')" ng-show="profile.checkTopics('music')">Music</button>
+      <button class="btn" ng-class="profile.setTopicColor('movies')" ng-click="profile.setTopicFilter('movies')" ng-show="profile.checkTopics('movies')">Movies</button>
+      <button class="btn" ng-class="profile.setTopicColor('videogames')" ng-click="profile.setTopicFilter('videogames')" ng-show="profile.checkTopics('videogames')">Videogames</button>
+      <button class="btn" ng-class="profile.setTopicColor('tech')" ng-click="profile.setTopicFilter('tech')" ng-show="profile.checkTopics('tech')">Tech</button>
     </div>
   </div>
 </div>

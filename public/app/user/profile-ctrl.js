@@ -3,13 +3,15 @@ angular.module('app')
     const profile = this;
 
     profile.user = AuthFactory.getLoggedUser();
+
     profile.current = {};
     profile.currentKey = null,
     profile.articles = null;
+    profile.userTopics = [];
 
     profile.loading = true;
-
     profile.filtering = false;
+
     profile.userSearch = '';
     profile.userFilterTopic = '';
     profile.userFilterFeed = '';
@@ -37,6 +39,12 @@ angular.module('app')
         profile.loading = false;
         profile.noFeeds = true;
       } else {
+          for (var item in current[key].feeds) {
+            if (profile.userTopics.indexOf(current[key].feeds[item].topic) === -1) {
+              profile.userTopics.push(current[key].feeds[item].topic)
+            }
+          }
+        console.log("profile.userTopics: ", profile.userTopics);
         profile.loadArticles();
       }
     }
@@ -110,6 +118,14 @@ angular.module('app')
             })
             .catch(console.log)
         })
+    }
+
+    profile.checkTopics = (topic) => {
+      for (var i = 0; i < profile.userTopics.length; i++) {
+        if (profile.userTopics[i] === topic) {
+          return true;
+        }
+      }
     }
 
   })
