@@ -17,7 +17,9 @@ angular.module('app')
             AuthFactory.loginUser(email, password)
               .then((res) => {
                 $http.post(`${BASE_API}/profiles.json`, {
-                  uid: res.uid
+                  uid: res.uid,
+                  name: username,
+                  email: email
                 })
                 .then(console.log)
                 .catch(console.log);
