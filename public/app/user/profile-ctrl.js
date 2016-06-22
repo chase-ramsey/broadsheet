@@ -3,6 +3,7 @@ angular.module('app')
     const profile = this;
 
     profile.user = AuthFactory.getLoggedUser();
+    profile.allFeeds = FeedFactory.getFeeds();
 
     profile.current = {};
     profile.currentKey = null,
@@ -28,7 +29,6 @@ angular.module('app')
           } else if (res.data[key].uid === profile.user.uid) {
               profile.current[key] = res.data[key];
               profile.currentKey = Object.keys(profile.current)[0];
-              console.log("profile.current: ", profile.current);
               profile.checkUserProfiles(profile.current, profile.currentKey);
           }
         }
@@ -44,7 +44,6 @@ angular.module('app')
               profile.userTopics.push(current[key].feeds[item].topic)
             }
           }
-        console.log("profile.userTopics: ", profile.userTopics);
         profile.loadArticles();
       }
     }
@@ -109,15 +108,14 @@ angular.module('app')
       delete profile.newFeeds[feed];
     }
 
-    profile.subscribe = (feeds) => {
-      UserFactory.postNewFeeds(feeds)
-        .then((promiseArr) => {
-          Promise.all(promiseArr)
+    profile.subscribe = (feeds, key) => {
+      let promises = UserFactory.postNewFeeds(feeds, key);
+      console.log("promises: ", promises);
+      Promise.all(promises)
             .then(() => {
               $route.reload();
             })
-            .catch(console.log)
-        })
+            .catch(console.log);
     }
 
     profile.checkTopics = (topic) => {

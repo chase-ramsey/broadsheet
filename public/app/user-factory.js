@@ -22,11 +22,12 @@ angular.module('app')
         return currentProfile;
       },
 
-      postNewFeeds: (userFeeds) => {
+      postNewFeeds: (userFeeds, profileKey) => {
         let promiseArr = [];
         for (var key in userFeeds) {
-          promiseArr.push($http.post(`${BASE_API}/profiles/${profile.currentKey}/feeds.json`, userFeeds[key]));
+          promiseArr.push($http.post(`${BASE_API}/profiles/${profileKey}/feeds.json`, userFeeds[key]));
         }
+        return promiseArr;
       }
     }
   })
