@@ -13,6 +13,7 @@ angular.module('app')
 
     profile.newFeeds = {};
     profile.userFeeds = {};
+    profile.addNewFeed = {};
 
     profile.loading = true;
     profile.filtering = false;
@@ -33,6 +34,7 @@ angular.module('app')
             $location.path('/');
           } else if (res.data[key].uid === profile.user.uid) {
               profile.current[key] = res.data[key];
+              console.log("profile.current: ", profile.current);
               profile.currentKey = Object.keys(profile.current)[0];
               profile.checkUserProfiles(profile.current, profile.currentKey);
           }
@@ -147,10 +149,15 @@ angular.module('app')
 
     profile.closeAddSpotlight = () => {
       profile.addNewSpotlight = false;
-      profile.addNewFeed.name = '';
-      profile.addNewFeed.link = '';
-      profile.addNewFeed.key = '';
-      profile.addNewFeed.topic = '';
+      profile.addNewFeed = {};
+    }
+
+    profile.backToNews = () => {
+      if (profile.addFeeds) {
+        profile.addFeeds = false;
+      } else if (profile.deleteFeeds) {
+        profile.deleteFeeds = false;
+      }
     }
 
   })

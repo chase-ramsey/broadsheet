@@ -1,3 +1,5 @@
+<!-- Navbar -->
+
 <div class="navbar navbar-fixed-top">
   <div class="container-fluid navbar-inverse">
     <div class="navbar-header">
@@ -10,15 +12,20 @@
     </form>
     <ul class="nav navbar-nav">
       <li><a href="#/">Latest</a></li>
-      <li ng-hide="profile.noFeeds"><a href="" ng-click="(profile.filtering = !profile.filtering)">Topics</a></li>
-      <li ng-hide="profile.noFeeds"><a href="" ng-click="profile.clearFilters()">View all</a></li>
-      <li ng-hide="profile.noFeeds"><a href="" ng-click="profile.loadArticles()">Refresh</a></li>
-      <li ng-hide="profile.noFeeds"><a href="" ng-click="profile.addFeeds = true">Add more feeds</a></li>
+      <li ng-hide="profile.noFeeds || profile.addFeeds || profile.deleteFeeds"><a href="" ng-click="(profile.filtering = !profile.filtering)">Topics</a></li>
+      <li ng-hide="profile.noFeeds || profile.addFeeds || profile.deleteFeeds"><a href="" ng-click="profile.clearFilters()">View all</a></li>
+      <li ng-hide="profile.noFeeds || profile.addFeeds || profile.deleteFeeds"><a href="" ng-click="profile.loadArticles()">Refresh</a></li>
+      <li ng-hide="profile.noFeeds || profile.addFeeds || profile.deleteFeeds"><a href="" ng-click="profile.addFeeds = true">Add more feeds</a></li>
+      <li ng-hide="profile.noFeeds || profile.addFeeds || profile.deleteFeeds"><a href="" ng-click="profile.deleteFeeds = true">Unsubscribe</a></li>
+      <li ng-show="profile.addFeeds || profile.deleteFeeds"><a href="" ng-click="profile.backToNews()">Back to your news</a></li>
     </ul>
     <ul class="nav navbar-nav navbar-right">
       <li><a href="#/logout">Logout</a></li>
     </ul>
   </div>
+
+<!-- In navbar, filter buttons -->
+
   <div class="filters" ng-show="profile.filtering">
     <div class="container filters-content">
       <h3>Filter by topic</h3>
@@ -43,10 +50,14 @@
     </div>
   </div>
 
+  <!-- Loading message -->
+
   <div class="page-header text-center" ng-hide="!(profile.loading)">
     <h2>Loading your articles...</h2>
     <p>If your articles are taking too long too appear, try refreshing the page.</p>
   </div>
+
+  <!-- Display feeds in add/initial subscribe -->
 
   <div class="add-feeds" ng-show="!(profile.loading) && profile.addFeeds || profile.noFeeds">
     <div class="page-header text-center" ng-show="profile.noFeeds">
@@ -66,6 +77,9 @@
           </div>
         </div>
       </div>
+
+      <!-- Spotlight for adding new feed -->
+
       <div class="spotlight" ng-show="profile.addNewSpotlight">
         <div class="container">
           <div class="row">
@@ -106,6 +120,8 @@
         </div>
       </div>
 
+      <!-- In add feeds, subscribe to feeds -->
+
       <h3>Subscribe</h3>
       <div class="row">
         <div class="column col-lg-3" ng-repeat="feed in profile.allFeeds">
@@ -131,7 +147,26 @@
     </div>
   </div>
 
-  <div class="row" ng-show="!(profile.loading) && !(profile.noFeeds) && !(profile.addFeeds)">
+  <!-- Delete feeds -->
+
+  <div class="delete-feeds" ng-show="!(profile.loading) && profile.deleteFeeds">
+    <div class="container">
+      <div class="row" ng-repeat="feed in profile.current[profile.currentKey].feeds">
+        <div class="column col-lg-6 col-lg-offset-3 col-md-6 col-md-offset-3 col-sm-10 col-sm-offset-1 col-xs-10 col-xs-offset-1">
+          <div class="unsubscribe-card">
+            <h4 class="unsubscribe-header">{{feed.name}}</h4>
+            <button type="button" class="btn btn-default unsubscribe-button" aria-label="Unsubscribe">
+              <span class="glyphicon glyphicon-remove" aria-hidden="true"></span>
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- User news -->
+
+  <div class="row" ng-show="!(profile.loading) && !(profile.noFeeds) && !(profile.addFeeds) && !(profile.deleteFeeds)">
 
     <div class="column col-lg-3 col-md-4 col-sm-6 col-xs-12" ng-repeat="article in profile.articles | orderBy: 'date':true | filter: profile.userSearch | filter: {topic: profile.userFilterTopic} | filter: {pubTitle: profile.userFilterFeed}">
       <div class="content-card" >
@@ -147,6 +182,8 @@
       </div>
     </div>
   </div>
+
+  <!-- Article spotlight -->
 
   <div class="spotlight" ng-show="profile.spotlight">
     <div class="container">
