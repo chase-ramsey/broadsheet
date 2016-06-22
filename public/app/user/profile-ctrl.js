@@ -1,5 +1,5 @@
 angular.module('app')
-  .controller('ProfileCtrl', function($scope, $location, $route, AuthFactory, UserFactory, FeedFactory) {
+  .controller('ProfileCtrl', function($scope, $location, $route, AuthFactory, UserFactory, FeedFactory, UserFeedService) {
     const profile = this;
 
     profile.user = AuthFactory.getLoggedUser();
@@ -10,6 +10,9 @@ angular.module('app')
     profile.articles = null;
     profile.userTopics = [];
 
+    profile.newFeeds = {};
+    profile.userFeeds = {};
+
     profile.loading = true;
     profile.filtering = false;
 
@@ -17,6 +20,7 @@ angular.module('app')
     profile.userFilterTopic = '';
     profile.userFilterFeed = '';
 
+    profile.addNewSpotlight = false;
     profile.spotlight = false;
     profile.spotlightItem = {};
 
@@ -104,8 +108,12 @@ angular.module('app')
       profile.spotlightItem = item;
     }
 
-    profile.removeFeed = (feed) => {
-      delete profile.newFeeds[feed];
+    profile.toggleAddFeed = (feed) => {
+      if (profile.newFeeds[feed.key]) {
+        delete profile.newFeeds[feed.key];
+      } else {
+        profile.newFeeds[feed.key] = feed;
+      }
     }
 
     profile.subscribe = (feeds, key) => {
@@ -124,6 +132,24 @@ angular.module('app')
           return true;
         }
       }
+    }
+
+    profile.submitAddNew = () => {
+      profile.addNewFeed.key = profile.addNewFeed.name.toLowerCase();
+      profile.addNewFeed.key = profile.addNewFeed.key.split(' ').join('_');
+      let userFeed = new UserFeedService.userFeed(profile.addNewFeed.key, profile.addNewFeed.name, profile.addNewFeed.link, profile.addNewFeed.topic);
+      console.log("userFeed: ", userFeed);
+      profile.newFeeds[profile.addNewFeed.key] = userFeed;
+      profile.userFeeds[profile.addNewFeed.key] = userFeed;
+      profile.closeAddSpotlight();
+    }
+
+    profile.closeAddSpotlight = () => {
+      profile.addNewSpotlight = false;
+      profile.addNewFeed.name = '';
+      profile.addNewFeed.link = '';
+      profile.addNewFeed.key = '';
+      profile.addNewFeed.topic = '';
     }
 
   })

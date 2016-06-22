@@ -127,6 +127,7 @@ h4 a:hover {
   height: 100%;
   background: rgba(0,0,0,.8);
   overflow: scroll;
+  z-index: 1000;
 }
 
 .spotlight .row {
@@ -184,4 +185,13 @@ h4 a:hover {
 .subscribe {
   width: 100%;
   margin: 20px;
+}
+
+.subscribed,
+.subscribed:focus {
+  color: #2ecc71;
+}
+
+.add-new-header {
+  margin-bottom: 20px;
 }
