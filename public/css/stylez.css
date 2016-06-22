@@ -211,8 +211,17 @@ h4 a:hover {
   display: inline-block;
 }
 
-.unsubscribe-button {
+.remove-button,
+.deleted {
   position: absolute;
   right: 10px;
+}
+
+.deleted {
   color: #e74c3c;
+}
+
+.unsubscribe-button {
+  width: 100%;
+  margin: 20px 0;
 }

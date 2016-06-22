@@ -151,14 +151,22 @@
 
   <div class="delete-feeds" ng-show="!(profile.loading) && profile.deleteFeeds">
     <div class="container">
-      <div class="row" ng-repeat="feed in profile.current[profile.currentKey].feeds">
+      <div class="row" ng-repeat="feed in profile.current[profile.currentKey].feeds | toArray:true">
         <div class="column col-lg-6 col-lg-offset-3 col-md-6 col-md-offset-3 col-sm-10 col-sm-offset-1 col-xs-10 col-xs-offset-1">
           <div class="unsubscribe-card">
             <h4 class="unsubscribe-header">{{feed.name}}</h4>
-            <button type="button" class="btn btn-default unsubscribe-button" aria-label="Unsubscribe">
+            <button type="button" class="btn btn-default remove-button" aria-label="Unsubscribe" ng-click="profile.toDeleteToggle(feed)" ng-hide="profile.toDelete.indexOf(feed.$key) !== -1">
               <span class="glyphicon glyphicon-remove" aria-hidden="true"></span>
             </button>
+            <button type="button" class="btn btn-default deleted" aria-label="Deleted" ng-click="profile.toDeleteToggle(feed)" ng-show="profile.toDelete.indexOf(feed.$key) !== -1">
+              <span class="glyphicon glyphicon-ban-circle" aria-hidden="true"></span>
+            </button>
           </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="column column col-lg-6 col-lg-offset-3 col-md-6 col-md-offset-3 col-sm-10 col-sm-offset-1 col-xs-10 col-xs-offset-1">
+          <button class="btn btn-danger unsubscribe-button" ng-click="profile.unsubscribe()"><h2>Unsubscribe</h2></button>
         </div>
       </div>
     </div>

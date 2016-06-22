@@ -28,6 +28,14 @@ angular.module('app')
           promiseArr.push($http.post(`${BASE_API}/profiles/${profileKey}/feeds.json`, userFeeds[key]));
         }
         return promiseArr;
+      },
+
+      userDeleteFeeds: (keyArr, userKey) => {
+        let promiseArr = [];
+        keyArr.forEach((feedKey) => {
+          promiseArr.push($http.delete(`${BASE_API}/profiles/${userKey}/feeds/${feedKey}.json`));
+        })
+        return promiseArr;
       }
     }
   })

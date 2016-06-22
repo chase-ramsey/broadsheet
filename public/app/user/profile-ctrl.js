@@ -15,6 +15,8 @@ angular.module('app')
     profile.userFeeds = {};
     profile.addNewFeed = {};
 
+    profile.toDelete = [];
+
     profile.loading = true;
     profile.filtering = false;
 
@@ -121,7 +123,6 @@ angular.module('app')
 
     profile.subscribe = (feeds, key) => {
       let promises = UserFactory.postNewFeeds(feeds, key);
-      console.log("promises: ", promises);
       Promise.all(promises)
             .then(() => {
               $route.reload();
@@ -158,6 +159,26 @@ angular.module('app')
       } else if (profile.deleteFeeds) {
         profile.deleteFeeds = false;
       }
+    }
+
+    profile.toDeleteToggle = (feed) => {
+      let index = profile.toDelete.indexOf(feed.$key);
+      console.log("index", index);
+      if (index === -1) {
+        profile.toDelete.push(feed.$key);
+        console.log("profile.toDelete", profile.toDelete);
+      } else {
+        profile.toDelete.splice(index, 1);
+        console.log("profile.toDelete", profile.toDelete);
+      }
+    }
+
+    profile.unsubscribe = () => {
+      var promises = UserFactory.userDeleteFeeds(profile.toDelete, profile.currentKey);
+      Promise.all(promises)
+        .then(() => {
+          $route.reload();
+        });
     }
 
   })
