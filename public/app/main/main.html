@@ -16,8 +16,8 @@
     <ul class="nav navbar-nav navbar-right">
       <li><a href="#/login" ng-show="!(main.login)">Login</a></li>
       <li><a href="#/register" ng-show="!(main.login)">Register</a></li>
-      <li><a href="#/profile/{{main.user.displayName}}" ng-show="main.login">{{main.user.displayName}}</a></li>
-      <li><a href="#/logout" ng-show="main.login">Logout</a></li>
+      <li><a href="#/profile/{{main.user.displayName}}" ng-show="main.login">Your news</a></li>
+      <li><a href="#/logout" ng-show="main.login">Logout {{main.user.displayName}}</a></li>
     </ul>
   </div>
   <div class="filters" ng-show="main.filtering">
