@@ -5,7 +5,7 @@
     </div>
     <form class="navbar-form navbar-left" role="search">
       <div class="form-group">
-        <input type="text" class="form-control" placeholder="Search" ng-model="profile.userSearch">
+        <input type="text" class="form-control" placeholder="Search your news" ng-model="profile.userSearch">
       </div>
     </form>
     <ul class="nav navbar-nav">
@@ -13,6 +13,7 @@
       <li ng-hide="profile.noFeeds"><a href="" ng-click="(profile.filtering = !profile.filtering)">Topics</a></li>
       <li ng-hide="profile.noFeeds"><a href="" ng-click="profile.clearFilters()">View all</a></li>
       <li ng-hide="profile.noFeeds"><a href="" ng-click="profile.loadArticles()">Refresh</a></li>
+      <li ng-hide="profile.noFeeds"><a href="" ng-click="profile.addFeeds = true">Add more feeds</a></li>
     </ul>
     <ul class="nav navbar-nav navbar-right">
       <li><a href="#/logout">Logout</a></li>
@@ -47,12 +48,12 @@
     <p>If your articles are taking too long too appear, try refreshing the page.</p>
   </div>
 
-  <div class="no-feeds" ng-show="!(profile.loading) && profile.noFeeds">
-    <div class="page-header text-center">
+  <div class="add-feeds" ng-show="!(profile.loading) && profile.addFeeds || profile.noFeeds">
+    <div class="page-header text-center" ng-show="profile.noFeeds">
       <h2>Looks like you haven't subscribed to any feeds yet</h2>
       <p>Select from the feeds provided below, or add your own feed.</p>
     </div>
-    <div class="add-user-feeds container">
+    <div class="add-user-feeds container" ng-show="profile.addFeeds || profile.noFeeds">
       <h3 class="add-new-header"><a href="" ng-click="profile.addNewSpotlight = true">Add new</a></h3>
       <div class="row">
         <div class="column col-lg-3" ng-repeat="feed in profile.userFeeds">
@@ -130,7 +131,7 @@
     </div>
   </div>
 
-  <div class="row" ng-show="!(profile.loading) && !(profile.noFeeds)">
+  <div class="row" ng-show="!(profile.loading) && !(profile.noFeeds) && !(profile.addFeeds)">
 
     <div class="column col-lg-3 col-md-4 col-sm-6 col-xs-12" ng-repeat="article in profile.articles | orderBy: 'date':true | filter: profile.userSearch | filter: {topic: profile.userFilterTopic} | filter: {pubTitle: profile.userFilterFeed}">
       <div class="content-card" >

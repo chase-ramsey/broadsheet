@@ -4,6 +4,7 @@ angular.module('app')
 
     profile.user = AuthFactory.getLoggedUser();
     profile.allFeeds = FeedFactory.getFeeds();
+    profile.addFeeds = false;
 
     profile.current = {};
     profile.currentKey = null,
