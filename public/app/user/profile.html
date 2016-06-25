@@ -124,7 +124,7 @@
 
       <h3>Subscribe</h3>
       <div class="row">
-        <div class="column col-lg-3" ng-repeat="feed in profile.allFeeds">
+        <div class="column col-lg-3" ng-repeat="feed in profile.addFeedsFiltered">
           <div class="feed-card">
             <h5>{{feed.name}}</h5>
             <p ng-class="profile.setTopicColor(feed.topic)">{{feed.topic}}</p>

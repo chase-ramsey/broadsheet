@@ -10,6 +10,7 @@ angular.module('app')
     profile.currentKey = null,
     profile.articles = null;
     profile.userTopics = [];
+    profile.addFeedsFiltered = {};
 
     profile.newFeeds = {};
     profile.userFeeds = {};
@@ -36,9 +37,9 @@ angular.module('app')
             $location.path('/');
           } else if (res.data[key].uid === profile.user.uid) {
               profile.current[key] = res.data[key];
-              console.log("profile.current: ", profile.current);
               profile.currentKey = Object.keys(profile.current)[0];
               profile.checkUserProfiles(profile.current, profile.currentKey);
+              profile.filterAddFeeds();
           }
         }
       })
@@ -54,6 +55,17 @@ angular.module('app')
             }
           }
         profile.loadArticles();
+      }
+    }
+
+    profile.filterAddFeeds = () => {
+      Object.assign(profile.addFeedsFiltered, profile.allFeeds);
+      for (var allFeedKey in profile.allFeeds) {
+        for (var userFeedKey in profile.current[profile.currentKey].feeds) {
+          if (profile.allFeeds[allFeedKey].url === profile.current[profile.currentKey].feeds[userFeedKey].url) {
+            delete profile.addFeedsFiltered[allFeedKey];
+          }
+        }
       }
     }
 
@@ -142,7 +154,6 @@ angular.module('app')
       profile.addNewFeed.key = profile.addNewFeed.name.toLowerCase();
       profile.addNewFeed.key = profile.addNewFeed.key.split(' ').join('_');
       let userFeed = new UserFeedService.userFeed(profile.addNewFeed.key, profile.addNewFeed.name, profile.addNewFeed.link, profile.addNewFeed.topic);
-      console.log("userFeed: ", userFeed);
       profile.newFeeds[profile.addNewFeed.key] = userFeed;
       profile.userFeeds[profile.addNewFeed.key] = userFeed;
       profile.closeAddSpotlight();
@@ -163,13 +174,10 @@ angular.module('app')
 
     profile.toDeleteToggle = (feed) => {
       let index = profile.toDelete.indexOf(feed.$key);
-      console.log("index", index);
       if (index === -1) {
         profile.toDelete.push(feed.$key);
-        console.log("profile.toDelete", profile.toDelete);
       } else {
         profile.toDelete.splice(index, 1);
-        console.log("profile.toDelete", profile.toDelete);
       }
     }
 
