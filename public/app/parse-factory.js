@@ -31,7 +31,6 @@ angular.module('app')
         // Get article link
           const link = (() => {
             if (article.querySelector('link') === null) {
-              console.log('link null on ', xml,   article);
               return '';
             } else if (article.querySelector('link').textContent === '') {
               return article.querySelector('link').getAttribute('href');

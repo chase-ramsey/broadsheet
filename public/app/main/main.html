@@ -1,19 +1,24 @@
 <div class="navbar navbar-fixed-top">
   <div class="container-fluid navbar-inverse">
     <div class="navbar-header">
-      <a class="navbar-brand" href="#">CODENAME MERCURY</a>
+      <a class="navbar-brand" href="#/">CODENAME MERCURY</a>
     </div>
     <form class="navbar-form navbar-left" role="search">
       <div class="form-group">
-        <input type="text" class="form-control" placeholder="Search" ng-model="main.userSearch">
+        <input type="text" class="form-control" placeholder="Search latest news" ng-model="main.userSearch">
       </div>
     </form>
-    <form class="navbar-form">
-      <!-- <div class="form-group"> -->
-        <button class="btn btn-success" ng-click="(main.filtering = !main.filtering)">Topics</button>
-        <button class="btn btn-warning" ng-click="main.clearFilters()">View all</button>
-      <!-- </div> -->
-    </form>
+    <ul class="nav navbar-nav">
+      <li><a href="" ng-click="(main.filtering = !main.filtering)">Topics</a></li>
+      <li><a href="" ng-click="main.clearFilters()">View all</a></li>
+      <li><a href="" ng-click="main.loadArticles()">Refresh</a></li>
+    </ul>
+    <ul class="nav navbar-nav navbar-right">
+      <li><a href="#/login" ng-show="!(main.login)">Login</a></li>
+      <li><a href="#/register" ng-show="!(main.login)">Register</a></li>
+      <li><a href="#/profile/{{main.user.displayName}}" ng-show="main.login">Your news</a></li>
+      <li><a href="#/logout" ng-show="main.login">Logout {{main.user.displayName}}</a></li>
+    </ul>
   </div>
   <div class="filters" ng-show="main.filtering">
     <div class="container filters-content">
@@ -31,26 +36,20 @@
 
 <div class="container-fluid" ng-click="(main.filtering = false)">
 
-  <div class="page-header text-center" ng-hide="main.loading">
-    <h2>Loading your articles...</h2>
+  <div class="jumbo-main jumbotron">
+    <div class="container-fluid">
+      <div class="jumbo-header">
+        <h1>Latest news</h1>
+      </div>
+    </div>
+  </div>
+
+  <div class="page-header text-center" ng-hide="!(main.loading)">
+    <h2>Loading fresh articles...</h2>
     <p>If your articles are taking too long too appear, try refreshing the page.</p>
   </div>
 
-  <div class="row" ng-show="main.loading">
-
-    <div class="jumbotron">
-      <div class="container-fluid">
-        <div class="jumbo-header">
-          <h1>Latest news</h1>
-        </div>
-  <!--       <div class="jumbo-text pull-right">
-          <p>Click an article to read more and add comments.</p>
-          <p>Click the name of a publication to view all news from that outlet.</p>
-          <p>Click the "Topics" button in the navbar to browse by topic.</p>
-          <p>Search by keyword using the box in the navbar.</p>
-        </div> -->
-      </div>
-    </div>
+  <div class="row" ng-show="!(main.loading)">
 
     <div class="column col-lg-3 col-md-4 col-sm-6 col-xs-12" ng-repeat="article in main.articles | orderBy: 'date':true | filter: main.userSearch | filter: {topic: main.userFilterTopic} | filter: {pubTitle: main.userFilterFeed}">
       <div class="content-card" >
@@ -95,7 +94,7 @@
           </form>
         </div>
       </div>
-      <button class="btn btn-danger" ng-click="main.setSpotlight(false, '')">Close Spotlight</button>
+      <button class="btn btn-danger" ng-click="main.setSpotlight(false, '')">Close</button>
     </div>
   </div>
 

@@ -1,15 +1,50 @@
 angular.module('app')
-  .controller('MainCtrl', function($scope, FeedFactory) {
+  .controller('MainCtrl', function($scope, FeedFactory, AuthFactory) {
     const main = this;
 
     main.feeds = null;
     main.articles = null;
-    main.loading = false;
+    main.loading = true;
+
     main.filtering = false;
     main.userSearch = '';
     main.userFilterTopic = '';
+
     main.spotlight = false;
     main.spotlightItem = {};
+
+    main.login = false;
+    main.user = null;
+
+    main.loadArticles = () => {
+      main.loading = true;
+      FeedFactory.fetchFeedData()
+        .then((result) => {
+          return main.feeds = FeedFactory.getFeeds();
+        })
+        .then((feeds) => {
+          return FeedFactory.fetchArticles(feeds);
+        })
+        .then((promiseArr) => {
+          Promise.all(promiseArr)
+            .then(() => {
+              main.articles = FeedFactory.getArticles();
+              main.loading = false;
+              $scope.$apply();
+              // console.log("main.articles: ", main.articles);
+            })
+        })
+    }
+
+    main.loadArticles();
+
+    firebase.auth().onAuthStateChanged((res) => {
+      if (res) {
+        AuthFactory.setLoggedUser(firebase.auth().currentUser);
+        main.user = AuthFactory.getLoggedUser();
+        main.login = true;
+      }
+    })
 
     main.topicColors = {
       'news': 'bg-blue',
@@ -30,6 +65,7 @@ angular.module('app')
     }
 
     main.setTopicFilter = (topic) => {
+      main.userFilterFeed = '';
       main.userFilterTopic = topic;
       main.filtering = false;
     }
@@ -39,6 +75,7 @@ angular.module('app')
     }
 
     main.clearFilters = () => {
+      main.userSearch = '';
       main.userFilterTopic = '';
       main.userFilterFeed = '';
     }
@@ -48,20 +85,4 @@ angular.module('app')
       main.spotlightItem = item;
     }
 
-    FeedFactory.fetchFeedData()
-      .then((result) => {
-        return main.feeds = FeedFactory.getFeeds();
-      })
-      .then((feeds) => {
-        return FeedFactory.fetchArticles(feeds);
-      })
-      .then((promiseArr) => {
-        Promise.all(promiseArr)
-          .then(() => {
-            main.articles = FeedFactory.getArticles();
-            main.loading = true;
-            $scope.$apply();
-            // console.log("main.articles: ", main.articles);
-          })
-      })
   })

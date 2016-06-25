@@ -1,0 +1,229 @@
+<!-- Navbar -->
+
+<div class="navbar navbar-fixed-top">
+  <div class="container-fluid navbar-inverse">
+    <div class="navbar-header">
+      <a class="navbar-brand" href="#/">CODENAME MERCURY</a>
+    </div>
+    <form class="navbar-form navbar-left" role="search">
+      <div class="form-group">
+        <input type="text" class="form-control" placeholder="Search your news" ng-model="profile.userSearch">
+      </div>
+    </form>
+    <ul class="nav navbar-nav">
+      <li ng-hide="profile.noFeeds || profile.addFeeds || profile.deleteFeeds"><a href="" ng-click="(profile.filtering = !profile.filtering)">Topics</a></li>
+      <li ng-hide="profile.noFeeds || profile.addFeeds || profile.deleteFeeds"><a href="" ng-click="profile.clearFilters()">View all</a></li>
+      <li ng-hide="profile.noFeeds || profile.addFeeds || profile.deleteFeeds"><a href="" ng-click="profile.loadArticles()">Refresh</a></li>
+      <li ng-hide="profile.noFeeds || profile.addFeeds || profile.deleteFeeds"><a href="" ng-click="profile.addFeeds = true">Add more feeds</a></li>
+      <li ng-hide="profile.noFeeds || profile.addFeeds || profile.deleteFeeds"><a href="" ng-click="profile.deleteFeeds = true">Unsubscribe</a></li>
+      <li><a href="#/">Latest</a></li>
+      <li ng-show="profile.addFeeds || profile.deleteFeeds"><a href="" ng-click="profile.backToNews()">Back to your news</a></li>
+    </ul>
+    <ul class="nav navbar-nav navbar-right">
+      <li><a href="#/logout">Logout {{profile.current[profile.currentKey].name}}</a></li>
+    </ul>
+  </div>
+
+<!-- In navbar, filter buttons -->
+
+  <div class="filters" ng-show="profile.filtering">
+    <div class="container filters-content">
+      <h3>Filter by topic</h3>
+      <button class="btn" ng-class="profile.setTopicColor('news')" ng-click="profile.setTopicFilter('news')" ng-show="profile.checkTopics('news')">News</button>
+      <button class="btn" ng-class="profile.setTopicColor('politics')" ng-click="profile.setTopicFilter('politics')" ng-show="profile.checkTopics('politics')">Politics</button>
+      <button class="btn" ng-class="profile.setTopicColor('culture')" ng-click="profile.setTopicFilter('culture')" ng-show="profile.checkTopics('culture')">Culture</button>
+      <button class="btn" ng-class="profile.setTopicColor('music')" ng-click="profile.setTopicFilter('music')" ng-show="profile.checkTopics('music')">Music</button>
+      <button class="btn" ng-class="profile.setTopicColor('movies')" ng-click="profile.setTopicFilter('movies')" ng-show="profile.checkTopics('movies')">Movies</button>
+      <button class="btn" ng-class="profile.setTopicColor('videogames')" ng-click="profile.setTopicFilter('videogames')" ng-show="profile.checkTopics('videogames')">Videogames</button>
+      <button class="btn" ng-class="profile.setTopicColor('tech')" ng-click="profile.setTopicFilter('tech')" ng-show="profile.checkTopics('tech')">Tech</button>
+    </div>
+  </div>
+</div>
+
+<div class="container-fluid">
+
+  <div class="jumbo-profile jumbotron">
+    <div class="container-fluid">
+      <div class="jumbo-header">
+        <h1>Your news</h1>
+      </div>
+    </div>
+  </div>
+
+  <!-- Loading message -->
+
+  <div class="page-header text-center" ng-hide="!(profile.loading)">
+    <h2>Loading your articles...</h2>
+    <p>If your articles are taking too long too appear, try refreshing the page.</p>
+  </div>
+
+  <!-- Display feeds in add/initial subscribe -->
+
+  <div class="add-feeds" ng-show="!(profile.loading) && profile.addFeeds || profile.noFeeds">
+    <div class="page-header text-center" ng-show="profile.noFeeds">
+      <h2>Looks like you haven't subscribed to any feeds yet</h2>
+      <p>Select from the feeds provided below, or add your own feed.</p>
+    </div>
+    <div class="add-user-feeds container" ng-show="profile.addFeeds || profile.noFeeds">
+      <h3 class="add-new-header"><a href="" ng-click="profile.addNewSpotlight = true">Add new</a></h3>
+      <div class="row">
+        <div class="column col-lg-3" ng-repeat="feed in profile.userFeeds">
+          <div class="feed-card">
+            <h5>{{feed.name}}</h5>
+            <p ng-class="profile.setTopicColor(feed.topic)">{{feed.topic}}</p>
+            <button type="button" class="btn btn-default" aria-label="Add" ng-click="profile.toggleAddFeed(feed)" ng-class="(profile.newFeeds[feed.key]) ? 'subscribed' : ''">
+              <span class="glyphicon glyphicon-ok" aria-hidden="true"></span>
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Spotlight for adding new feed -->
+
+      <div class="spotlight" ng-show="profile.addNewSpotlight">
+        <div class="container">
+          <div class="row">
+            <div class="column col-lg-6 col-lg-offset-3 col-md-6 col-md-offset-3 col-sm-12 col-xs-12">
+              <div class="content-card">
+                <div class="card-header bg-purple text-center">
+                  <h4>Create a new feed</h4>
+                </div>
+                <div class="card-text">
+                  <form>
+                    <div class="form-group">
+                      <label for="feed_name" class="form-label">Feed name</label>
+                      <input type="text" id="feed_name" class="form-control" ng-model="profile.addNewFeed.name" autofocus>
+                    </div>
+                    <div class="form-group">
+                      <label for="feed_link" class="form-label">RSS link</label>
+                      <input type="text" id="feed_link" class="form-control" ng-model="profile.addNewFeed.link" placeholder="http://">
+                    </div>
+                    <div class="form-group">
+                      <select ng-model="profile.addNewFeed.topic">
+                        <option value="" disabled selected>Topic</option>
+                        <option value="news">News</option>
+                        <option value="politics">Politics</option>
+                        <option value="culture">Culture</option>
+                        <option value="tech">Tech</option>
+                        <option value="music">Music</option>
+                        <option value="movies">Movies</option>
+                        <option value="videogames">Videogames</option>
+                      </select>
+                    </div>
+                  </form>
+                  <button class="btn btn-danger" ng-click="profile.closeAddSpotlight()">Close</button>
+                  <button class="btn btn-primary" ng-click="profile.submitAddNew()">Submit</button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- In add feeds, subscribe to feeds -->
+
+      <h3>Subscribe</h3>
+      <div class="row">
+        <div class="column col-lg-3" ng-repeat="feed in profile.addFeedsFiltered">
+          <div class="feed-card">
+            <h5>{{feed.name}}</h5>
+            <p ng-class="profile.setTopicColor(feed.topic)">{{feed.topic}}</p>
+            <button type="button" class="btn btn-default" aria-label="Subscribed" ng-click="profile.toggleAddFeed(feed)" ng-show="profile.newFeeds[feed.key]" ng-class="(profile.newFeeds[feed.key]) ? 'subscribed' : ''">
+              <span class="glyphicon glyphicon-ok" aria-hidden="true"></span>
+            </button>
+            <button type="button" class="btn btn-default" aria-label="Add" ng-click="profile.toggleAddFeed(feed)" ng-hide="profile.newFeeds[feed.key]">
+              <span class="glyphicon glyphicon-plus" aria-hidden="true"></span>
+            </button>
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="column col-lg-8 col-lg-offset-2">
+          <button class="subscribe btn btn-primary" ng-click="profile.subscribe(profile.newFeeds, profile.currentKey)">
+            <h2>Subscribe</h2>
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Delete feeds -->
+
+  <div class="delete-feeds" ng-show="!(profile.loading) && profile.deleteFeeds">
+    <div class="container">
+      <div class="row" ng-repeat="feed in profile.current[profile.currentKey].feeds | toArray:true">
+        <div class="column col-lg-6 col-lg-offset-3 col-md-6 col-md-offset-3 col-sm-10 col-sm-offset-1 col-xs-10 col-xs-offset-1">
+          <div class="unsubscribe-card">
+            <h4 class="unsubscribe-header">{{feed.name}}</h4>
+            <button type="button" class="btn btn-default remove-button" aria-label="Unsubscribe" ng-click="profile.toDeleteToggle(feed)" ng-hide="profile.toDelete.indexOf(feed.$key) !== -1">
+              <span class="glyphicon glyphicon-remove" aria-hidden="true"></span>
+            </button>
+            <button type="button" class="btn btn-default deleted" aria-label="Deleted" ng-click="profile.toDeleteToggle(feed)" ng-show="profile.toDelete.indexOf(feed.$key) !== -1">
+              <span class="glyphicon glyphicon-ban-circle" aria-hidden="true"></span>
+            </button>
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="column column col-lg-6 col-lg-offset-3 col-md-6 col-md-offset-3 col-sm-10 col-sm-offset-1 col-xs-10 col-xs-offset-1">
+          <button class="btn btn-danger unsubscribe-button" ng-click="profile.unsubscribe()"><h2>Unsubscribe</h2></button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- User news -->
+
+  <div class="row" ng-show="!(profile.loading) && !(profile.noFeeds) && !(profile.addFeeds) && !(profile.deleteFeeds)">
+
+    <div class="column col-lg-3 col-md-4 col-sm-6 col-xs-12" ng-repeat="article in profile.articles | orderBy: 'date':true | filter: profile.userSearch | filter: {topic: profile.userFilterTopic} | filter: {pubTitle: profile.userFilterFeed}">
+      <div class="content-card" >
+        <div class="card-header" ng-class="profile.setTopicColor(article.topic)">
+          <h4 ng-click="profile.setFeedFilter(article)"><a href="">{{article.pubTitle}}</a></h4>
+        </div>
+        <div class="card-text" ng-click="profile.setSpotlight(true, article)">
+          <p><a href="{{article.link}}" target="_blank">{{article.title}}</a></p>
+          <p>{{article.author}}</p>
+          <!-- <p ng-bind-html="article.description"></p> -->
+          <p class="date">{{article.date|dateFormat}}</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Article spotlight -->
+
+  <div class="spotlight" ng-show="profile.spotlight">
+    <div class="container">
+      <div class="row">
+        <div class="column col-lg-6 col-md-6 col-sm-12 col-xs-12">
+          <div class="content-card">
+            <div class="card-header" ng-class="profile.setTopicColor(profile.spotlightItem.topic)">
+              <h4 ng-click="profile.setFeedFilter(article)"><a href="">{{profile.spotlightItem.pubTitle}}</a></h4>
+            </div>
+            <div class="card-text">
+              <p><a href="{{profile.spotlightItem.link}}" target="_blank">{{profile.spotlightItem.title}}</a></p>
+              <p>{{profile.spotlightItem.author}}</p>
+              <p ng-bind-html="profile.spotlightItem.description"></p>
+              <p class="date">{{profile.spotlightItem.date|dateFormat}}</p>
+            </div>
+          </div>
+        </div>
+        <div class="column col-lg-6 col-md-6 col-sm-12 col-xs-12 comments-container">
+          <h3>Comments</h3>
+          <div class="comments">
+          </div>
+          <form class="form-inline">
+            <div class="form-group">
+              <input type="text" id="comment-input" class="form-control" placeholder="Type new comment here">
+            </div>
+            <button class="btn btn-primary">Submit</button>
+          </form>
+        </div>
+      </div>
+      <button class="btn btn-danger" ng-click="profile.setSpotlight(false, '')">Close</button>
+    </div>
+  </div>
+
+</div>
+

@@ -21,10 +21,19 @@ body {
   font-weight: 500;
 }
 
+.navbar-form {
+  display: inline;
+}
+
 /*===== Jumbotron styles =====*/
 
-.jumbotron {
+.jumbo-main {
   background: #2ecc71;
+  color: #fff;
+}
+
+.jumbo-profile {
+  background: #3498db;
   color: #fff;
 }
 
@@ -53,7 +62,6 @@ h4 a:hover {
 .card-header {
   border-bottom: 1px solid #000;
   padding: 5px;
-  color: #fff;
 }
 
 .content-card img {
@@ -76,30 +84,37 @@ h4 a:hover {
 
 .bg-green {
   background: #2ecc71;
+  color: #fff;
 }
 
 .bg-blue {
   background: #3498db;
+  color: #fff;
 }
 
 .bg-red {
   background: #e74c3c;
+  color: #fff;
 }
 
 .bg-purple {
   background: #9b59b6;
+  color: #fff;
 }
 
 .bg-yellow {
   background: #f1c40f;
+  color: #fff;
 }
 
 .bg-orange {
   background: #e67e22;
+  color: #fff;
 }
 
 .bg-navy {
   background: #34495e;
+  color: #fff;
 }
 
 /*===== Spotlight styles =====*/
@@ -112,6 +127,7 @@ h4 a:hover {
   height: 100%;
   background: rgba(0,0,0,.8);
   overflow: scroll;
+  z-index: 1000;
 }
 
 .spotlight .row {
@@ -149,4 +165,63 @@ h4 a:hover {
 
 #comment-input {
   width: 460px;
+}
+
+/*===== Subscribe styles =====*/
+
+.feed-card {
+  margin: 10px;
+  padding: 10px;
+  box-shadow: 2px 2px 5px rgba(0,0,0,.2);
+  border: 1px solid #3498db;
+  border-radius: 3px;
+}
+
+.feed-card p {
+  padding: 3px;
+  text-align: center;
+}
+
+.subscribe {
+  width: 100%;
+  margin: 20px;
+}
+
+.subscribed,
+.subscribed:focus {
+  color: #2ecc71;
+}
+
+.add-new-header {
+  margin-bottom: 20px;
+}
+
+/*===== Unsubscribe styles =====*/
+
+.unsubscribe-card {
+  position: relative;
+  margin: 10px 0;
+  padding: 10px;
+  background: #ecf0f1;
+  border-radius: 3px;
+  box-shadow: 0px 2px 2px rgba(0,0,0,.2);
+}
+
+.unsubscribe-header {
+  display: inline-block;
+}
+
+.remove-button,
+.deleted {
+  position: absolute;
+  right: 10px;
+}
+
+.deleted {
+  color: #e74c3c;
+}
+
+.unsubscribe-button {
+  width: 100%;
+  margin: 20px 0;
 }
