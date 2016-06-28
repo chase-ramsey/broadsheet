@@ -1,5 +1,5 @@
 angular.module('app')
-  .controller('MainCtrl', function($scope, FeedFactory, AuthFactory) {
+  .controller('MainCtrl', function($scope, FeedFactory, AuthFactory, CommentFactory) {
     const main = this;
 
     main.feeds = null;
