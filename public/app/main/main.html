@@ -85,7 +85,11 @@
         <div class="column col-lg-6 col-md-6 col-sm-12 col-xs-12 comments-container">
           <h3>Comments</h3>
           <div class="comments">
-            <p ng-repeat="comment in main.spotlightItem.comments | orderBy: 'time'">{{comment.user}}: {{comment.text}} ({{comment.time|dateFormat}})</p>
+            <div ng-repeat="comment in main.spotlightItem.comments | orderBy: 'time'" class="comment-content ">
+              <div class="comment-user" ng-class="{'comment-currentUser': (comment.user === main.user.displayName)}">{{comment.user}}</div>
+              <div class="comment-text">{{comment.text}}</div>
+              <div class="comment-time">{{comment.time|dateFormat}}</div>
+            </div>
           </div>
           <form class="form-inline" ng-submit="main.submitComment(main.spotlightItem)">
             <div class="form-group">

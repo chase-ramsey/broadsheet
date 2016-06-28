@@ -123,7 +123,7 @@ angular.module('app')
       }
       newCommentUrl = article.link;
       let comment = new CommentService.createComment(main.user.displayName, main.newCommentText, newCommentUrl)
-      CommentFactory.postComments(comment);
+      CommentFactory.postComment(comment);
       main.newCommentText = '';
     }
 
