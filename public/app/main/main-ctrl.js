@@ -84,4 +84,16 @@ angular.module('app')
       main.spotlightItem = item;
     }
 
+    main.submitComment = () => {
+      if (main.user === null) {
+        window.alert('You must be logged in to create a comment.');
+        return;
+      }
+      main.newComment.link = main.spotlightItem.link;
+      main.newComment.comment.user = main.user.displayName;
+      main.newComment.comment.time = new Date().toISOString();
+      console.log("main.newComment: ", main.newComment);
+      main.newComment = {};
+    }
+
   })
