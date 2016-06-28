@@ -1,5 +1,5 @@
 angular.module('app')
-  .controller('MainCtrl', function($scope, FeedFactory, AuthFactory, CommentFactory) {
+  .controller('MainCtrl', function($scope, FeedFactory, AuthFactory, CommentFactory, CommentService, DisplayCommentService) {
     const main = this;
 
     main.feeds = null;
@@ -31,6 +31,10 @@ angular.module('app')
               main.articles = FeedFactory.getArticles();
               main.loading = false;
               $scope.$apply();
+              CommentFactory.fetchAllComments()
+                .then((res) => {
+                  main.commentCheck(res.data);
+                })
             })
         })
     }
@@ -84,16 +88,55 @@ angular.module('app')
       main.spotlightItem = item;
     }
 
-    main.submitComment = () => {
+    main.commentCheck = (data) => {
+      for (let key in data) {
+        main.articles.forEach((article) => {
+          if (article.link === data[key].link) {
+            if (article.comments === undefined) {
+              article.comments = [];
+            }
+            let doNotAdd = false;
+            article.comments.forEach((comment) => {
+              if (Object.keys(comment)[0] === key) {
+                doNotAdd = true;
+              }
+            })
+            if (!doNotAdd) {
+              data[key].key = key;
+              article.comments.push(data[key]);
+            }
+            // if (main.spotlightItem !== {}) {
+            //   if (main.spotlightItem.comments === undefined) {
+            //     main.spotlightItem.comments = [];
+            //   }
+            //   main.spotlightItem.comments.push(data[key]);
+            // }
+            doNotAdd = false;
+          }
+        })
+      }
+    }
+
+    main.submitComment = (article) => {
       if (main.user === null) {
         window.alert('You must be logged in to create a comment.');
         return;
       }
-      main.newComment.link = main.spotlightItem.link;
-      main.newComment.comment.user = main.user.displayName;
-      main.newComment.comment.time = new Date().toISOString();
-      console.log("main.newComment: ", main.newComment);
-      main.newComment = {};
+      newCommentUrl = article.link;
+      let comment = new CommentService.createComment(main.user.displayName, main.newCommentText, newCommentUrl)
+      CommentFactory.postComments(comment);
+      main.newCommentText = '';
     }
+
+    firebase.database().ref('/comments').on('child_added', (res) => {
+      console.log("res: ", res);
+      if (main.articles === null) {
+        return;
+      } else {
+        let key = res.getKey();
+        let displayComment = new DisplayCommentService.create(key, res.val())
+        main.commentCheck(displayComment);
+      }
+    })
 
   })
