@@ -51,10 +51,8 @@ angular.module('app')
         // Get description
           const description = (() => {
             if (article.querySelector('description') !== null) {
-              // var div = document.createElement('div');
               return $sanitize(article.querySelector('description').textContent);
             } else if (article.querySelector('content') !== null) {
-              // var div = document.createElement('div');
               return $sanitize(article.querySelector('content').textContent);
             }
           })();
@@ -63,7 +61,6 @@ angular.module('app')
           const topic = articleTopic;
         // Create new object with values and push them to the processedArticles array
           var articleObject = new CreateService.newArticle(title, author, link, description, date, pubTitle, topic);
-          // console.log('articleObject: ', articleObject);
           returnObjects.push(articleObject);
         })
         return returnObjects;

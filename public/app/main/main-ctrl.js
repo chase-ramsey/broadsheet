@@ -31,7 +31,6 @@ angular.module('app')
               main.articles = FeedFactory.getArticles();
               main.loading = false;
               $scope.$apply();
-              // console.log("main.articles: ", main.articles);
             })
         })
     }
