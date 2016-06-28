@@ -105,7 +105,6 @@ angular.module('app')
               data[key].key = key;
               article.comments.push(data[key]);
               if (main.spotlight === true) {
-                console.log("article after add: ", article);
                 main.setSpotlight(true, article);
                 $scope.$apply();
               }
@@ -128,7 +127,6 @@ angular.module('app')
     }
 
     firebase.database().ref('/comments').on('child_added', (res) => {
-      console.log("res: ", res);
       if (main.articles === null) {
         return;
       } else {
