@@ -104,13 +104,12 @@ angular.module('app')
             if (!doNotAdd) {
               data[key].key = key;
               article.comments.push(data[key]);
+              if (main.spotlight === true) {
+                console.log("article after add: ", article);
+                main.setSpotlight(true, article);
+                $scope.$apply();
+              }
             }
-            // if (main.spotlightItem !== {}) {
-            //   if (main.spotlightItem.comments === undefined) {
-            //     main.spotlightItem.comments = [];
-            //   }
-            //   main.spotlightItem.comments.push(data[key]);
-            // }
             doNotAdd = false;
           }
         })
