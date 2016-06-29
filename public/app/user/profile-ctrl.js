@@ -1,5 +1,5 @@
 angular.module('app')
-  .controller('ProfileCtrl', function($scope, $location, $route, AuthFactory, UserFactory, FeedFactory, UserFeedService) {
+  .controller('ProfileCtrl', function($scope, $location, $route, AuthFactory, UserFactory, FeedFactory, UserFeedService, CommentFactory, CommentService, DisplayCommentService) {
     const profile = this;
 
     profile.user = AuthFactory.getLoggedUser();
@@ -80,6 +80,10 @@ angular.module('app')
           profile.loading = false;
           profile.noFeeds = false;
           $scope.$apply();
+          CommentFactory.fetchAllComments()
+            .then((res) => {
+              profile.commentCheck(res.data);
+            })
         })
     }
 
@@ -188,5 +192,53 @@ angular.module('app')
           $route.reload();
         });
     }
+
+    profile.commentCheck = (data) => {
+      for (let key in data) {
+        profile.articles.forEach((article) => {
+          if (article.link === data[key].link) {
+            if (article.comments === undefined) {
+              article.comments = [];
+            }
+            let doNotAdd = false;
+            article.comments.forEach((comment) => {
+              if (Object.keys(comment)[0] === key) {
+                doNotAdd = true;
+              }
+            })
+            if (!doNotAdd) {
+              data[key].key = key;
+              article.comments.push(data[key]);
+              if (profile.spotlight === true) {
+                profile.setSpotlight(true, article);
+                $scope.$apply();
+              }
+            }
+            doNotAdd = false;
+          }
+        })
+      }
+    }
+
+    profile.submitComment = (article) => {
+      if (profile.user === null) {
+        window.alert('You must be logged in to create a comment.');
+        return;
+      }
+      newCommentUrl = article.link;
+      let comment = new CommentService.createComment(profile.user.displayName, profile.newCommentText, newCommentUrl)
+      CommentFactory.postComment(comment);
+      profile.newCommentText = '';
+    }
+
+    firebase.database().ref('/comments').on('child_added', (res) => {
+      if (profile.articles === null) {
+        return;
+      } else {
+        let key = res.getKey();
+        let displayComment = new DisplayCommentService.create(key, res.val())
+        profile.commentCheck(displayComment);
+      }
+    })
 
   })

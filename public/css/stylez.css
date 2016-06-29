@@ -167,6 +167,33 @@ h4 a:hover {
   width: 460px;
 }
 
+.comment-content {
+  margin: 10px;
+  position: relative;
+}
+
+.comment-text {
+  width: 80%;
+}
+
+.comment-time {
+  text-align: right;
+  font-size: .8em;
+  font-style: italic;
+  position: absolute;
+  top: 0;
+  right: 0;
+}
+
+.comment-user {
+  font-weight: 500;
+  color: #aaa;
+}
+
+.comment-currentUser {
+  color: #2ecc71;
+}
+
 /*===== Subscribe styles =====*/
 
 .feed-card {
