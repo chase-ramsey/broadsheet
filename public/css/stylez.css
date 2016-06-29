@@ -139,6 +139,16 @@ h4 a:hover {
   overflow: scroll;
 }
 
+.spotlight .card-header {
+  position: relative;
+}
+
+.save-article {
+  position: absolute;
+  top: 8px;
+  right: 8px;
+}
+
 .spotlight .card-text {
   padding: 20px;
 }
