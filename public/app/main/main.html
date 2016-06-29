@@ -59,7 +59,6 @@
         <div class="card-text" ng-click="main.setSpotlight(true, article)">
           <p><a href="{{article.link}}" target="_blank">{{article.title}}</a></p>
           <p>{{article.author}}</p>
-          <!-- <p ng-bind-html="article.description"></p> -->
           <p class="date">{{article.date|dateFormat}}</p>
         </div>
       </div>
@@ -73,7 +72,8 @@
           <div class="content-card">
             <div class="card-header" ng-class="main.setTopicColor(main.spotlightItem.topic)">
               <h4 ng-click="main.setFeedFilter(article)"><a href="">{{main.spotlightItem.pubTitle}}</a></h4>
-              <button class="save-article btn btn-default"><span class="glyphicon glyphicon-book" aria-hidden="true"></span> Save this article</button>
+              <button class="save-article btn btn-default" ng-click="main.saveArticle()" ng-hide="main.spotlightItem.saved"><span class="glyphicon glyphicon-book" aria-hidden="true"></span> Save this article</button>
+              <button class="saved-article btn btn-default" ng-click="main.saveArticle()" ng-show="main.spotlightItem.saved"><span class="glyphicon glyphicon-bookmark" aria-hidden="true"></span> Saved</button>
             </div>
             <div class="card-text">
               <p><a href="{{main.spotlightItem.link}}" target="_blank">{{main.spotlightItem.title}}</a></p>

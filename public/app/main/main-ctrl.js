@@ -1,5 +1,5 @@
 angular.module('app')
-  .controller('MainCtrl', function($scope, FeedFactory, AuthFactory, CommentFactory, CommentService, DisplayCommentService) {
+  .controller('MainCtrl', function($scope, FeedFactory, AuthFactory, CommentFactory, UserFactory, CommentService, DisplayCommentService) {
     const main = this;
 
     main.feeds = null;
@@ -15,6 +15,8 @@ angular.module('app')
 
     main.login = false;
     main.user = null;
+    main.current = {};
+    main.currentKey = null;
 
     main.loadArticles = () => {
       main.loading = true;
@@ -46,6 +48,16 @@ angular.module('app')
         AuthFactory.setLoggedUser(firebase.auth().currentUser);
         main.user = AuthFactory.getLoggedUser();
         main.login = true;
+        UserFactory.fetchProfiles()
+        .then((res) => {
+          UserFactory.setAllProfiles(res.data);
+          for (var key in res.data) {
+            if (res.data[key].uid === main.user.uid) {
+              main.current[key] = res.data[key];
+              main.currentKey = Object.keys(main.current)[0];
+            }
+          }
+        })
       }
     })
 
@@ -135,5 +147,20 @@ angular.module('app')
         main.commentCheck(displayComment);
       }
     })
+
+    main.saveArticle = () => {
+      if (!main.user) {
+        window.alert('You have to be logged in to save articles.');
+      }
+      let toSave = {};
+      Object.assign(toSave, main.spotlightItem);
+      if (toSave.comments) {
+        delete toSave.comments;
+      }
+      UserFactory.userSaveArticle(toSave, main.currentKey)
+        .then(() => {
+          main.spotlightItem.saved = true;
+        });
+    }
 
   })

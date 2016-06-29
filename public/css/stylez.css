@@ -143,10 +143,19 @@ h4 a:hover {
   position: relative;
 }
 
-.save-article {
+.spotlight .card-header h4 {
+  max-width: 80%;
+}
+
+.save-article,
+.saved-article {
   position: absolute;
   top: 8px;
   right: 8px;
+}
+
+.saved-article {
+  color: #2ecc71;
 }
 
 .spotlight .card-text {
