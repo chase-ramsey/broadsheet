@@ -37,6 +37,27 @@ angular.module('app')
                 .then((res) => {
                   main.commentCheck(res.data);
                 })
+              if (main.login) {
+                UserFactory.fetchProfiles()
+                  .then((res) => {
+                    UserFactory.setAllProfiles(res.data);
+                    for (var key in res.data) {
+                      if (res.data[key].uid === main.user.uid) {
+                        main.current[key] = res.data[key];
+                        main.currentKey = Object.keys(main.current)[0];
+                      }
+                    }
+                    if (main.current[main.currentKey].saved) {
+                      for (let savedKey in main.current[main.currentKey].saved) {
+                        for (var i = 0; i < main.articles.length; i++) {
+                          if (main.current[main.currentKey].saved[savedKey].link === main.articles[i].link) {
+                            main.articles[i].saved = true;
+                          }
+                        }
+                      }
+                    }
+                  })
+              }
             })
         })
     }
@@ -48,16 +69,6 @@ angular.module('app')
         AuthFactory.setLoggedUser(firebase.auth().currentUser);
         main.user = AuthFactory.getLoggedUser();
         main.login = true;
-        UserFactory.fetchProfiles()
-        .then((res) => {
-          UserFactory.setAllProfiles(res.data);
-          for (var key in res.data) {
-            if (res.data[key].uid === main.user.uid) {
-              main.current[key] = res.data[key];
-              main.currentKey = Object.keys(main.current)[0];
-            }
-          }
-        })
       }
     })
 
