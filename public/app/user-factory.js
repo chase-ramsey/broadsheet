@@ -36,6 +36,15 @@ angular.module('app')
           promiseArr.push($http.delete(`${BASE_API}/profiles/${userKey}/feeds/${feedKey}.json`));
         })
         return promiseArr;
+      },
+
+      userSaveArticle: (article, profileKey) => {
+        return $http.post(`${BASE_API}/profiles/${profileKey}/saved.json`, article);
+      },
+
+      userUnsaveArticle: (profileKey, articleKey) => {
+        return $http.delete(`${BASE_API}/profiles/${profileKey}/saved/${articleKey}.json`);
       }
+
     }
   })
