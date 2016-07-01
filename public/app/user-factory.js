@@ -40,6 +40,10 @@ angular.module('app')
 
       userSaveArticle: (article, profileKey) => {
         return $http.post(`${BASE_API}/profiles/${profileKey}/saved.json`, article);
+      },
+
+      userUnsaveArticle: (profileKey, articleKey) => {
+        return $http.delete(`${BASE_API}/profiles/${profileKey}/saved/${articleKey}.json`);
       }
 
     }

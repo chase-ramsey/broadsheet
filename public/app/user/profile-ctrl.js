@@ -273,4 +273,16 @@ angular.module('app')
       }
     })
 
+    profile.unsaveArticle = () => {
+      UserFactory.userUnsaveArticle(profile.currentKey, profile.spotlightItem.$key)
+        .then(() => {
+          for (let key in profile.current[profile.currentKey].saved) {
+            if (key === profile.spotlightItem.$key) {
+              delete profile.current[profile.currentKey].saved[key];
+            }
+          }
+          profile.setSpotlight(false, {});
+        });
+    }
+
   })

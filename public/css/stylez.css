@@ -157,7 +157,8 @@ h4 a:hover {
 }
 
 .save-article,
-.saved-article {
+.saved-article,
+.unsave-article {
   position: absolute;
   top: 8px;
   right: 8px;
@@ -168,6 +169,11 @@ h4 a:hover {
   background: #fff;
   color: #2ecc71;
   cursor: initial;
+}
+
+.unsave-article,
+.unsave-article:hover {
+  color: #e74c3c;
 }
 
 .spotlight .card-text {
