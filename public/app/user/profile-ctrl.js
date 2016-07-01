@@ -83,6 +83,7 @@ angular.module('app')
           CommentFactory.fetchAllComments()
             .then((res) => {
               profile.commentCheck(res.data);
+              profile.savedCommentCheck(res.data);
             })
         })
     }
@@ -173,6 +174,8 @@ angular.module('app')
         profile.addFeeds = false;
       } else if (profile.deleteFeeds) {
         profile.deleteFeeds = false;
+      } else if (profile.showSaved) {
+        profile.showSaved = false;
       }
     }
 
@@ -220,6 +223,34 @@ angular.module('app')
       }
     }
 
+    profile.savedCommentCheck = (data) => {
+      let userSaved = profile.current[profile.currentKey].saved;
+      for (let key in data) {
+        for (let savedKey in userSaved) {
+          if (userSaved[savedKey].link === data[key].link) {
+            if (userSaved[savedKey].comments === undefined) {
+              userSaved[savedKey].comments = [];
+            }
+            let doNotAdd = false;
+            userSaved[savedKey].comments.forEach((comment) => {
+              if (Object.keys(comment)[0] === key) {
+                doNotAdd = true;
+              }
+            })
+            if (!doNotAdd) {
+              data[key].key = key;
+              userSaved[savedKey].comments.push(data[key]);
+              if (profile.spotlight === true) {
+                profile.setSpotlight(true, userSaved[savedKey]);
+                $scope.$apply();
+              }
+            }
+            doNotAdd = false;
+          }
+        }
+      }
+    }
+
     profile.submitComment = (article) => {
       if (profile.user === null) {
         window.alert('You must be logged in to create a comment.');
@@ -238,6 +269,7 @@ angular.module('app')
         let key = res.getKey();
         let displayComment = new DisplayCommentService.create(key, res.val())
         profile.commentCheck(displayComment);
+        profile.savedCommentCheck(displayComment);
       }
     })
 

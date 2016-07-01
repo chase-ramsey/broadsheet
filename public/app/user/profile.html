@@ -13,11 +13,12 @@
     <ul class="nav navbar-nav">
       <li ng-hide="profile.noFeeds || profile.addFeeds || profile.deleteFeeds"><a href="" ng-click="(profile.filtering = !profile.filtering)">Topics</a></li>
       <li ng-hide="profile.noFeeds || profile.addFeeds || profile.deleteFeeds"><a href="" ng-click="profile.clearFilters()">View all</a></li>
-      <li ng-hide="profile.noFeeds || profile.addFeeds || profile.deleteFeeds"><a href="" ng-click="profile.loadArticles()">Refresh</a></li>
-      <li ng-hide="profile.noFeeds || profile.addFeeds || profile.deleteFeeds"><a href="" ng-click="profile.addFeeds = true">Add more feeds</a></li>
-      <li ng-hide="profile.noFeeds || profile.addFeeds || profile.deleteFeeds"><a href="" ng-click="profile.deleteFeeds = true">Unsubscribe</a></li>
+      <li ng-hide="profile.noFeeds || profile.addFeeds || profile.deleteFeeds || profile.showSaved"><a href="" ng-click="profile.loadArticles()">Refresh</a></li>
+      <li ng-hide="profile.noFeeds || profile.addFeeds || profile.deleteFeeds || profile.showSaved"><a href="" ng-click="profile.addFeeds = true">Add more feeds</a></li>
+      <li ng-hide="profile.noFeeds || profile.addFeeds || profile.deleteFeeds || profile.showSaved"><a href="" ng-click="profile.deleteFeeds = true">Unsubscribe</a></li>
+      <li ng-hide="profile.noFeeds || profile.addFeeds || profile.deleteFeeds || profile.showSaved"><a href="" ng-click="profile.showSaved = true">Saved</a></li>
       <li><a href="#/">Latest</a></li>
-      <li ng-show="profile.addFeeds || profile.deleteFeeds"><a href="" ng-click="profile.backToNews()">Back to your news</a></li>
+      <li ng-show="profile.addFeeds || profile.deleteFeeds || profile.showSaved"><a href="" ng-click="profile.backToNews()">Back to your news</a></li>
     </ul>
     <ul class="nav navbar-nav navbar-right">
       <li><a href="#/logout">Logout {{profile.current[profile.currentKey].name}}</a></li>
@@ -42,10 +43,18 @@
 
 <div class="container-fluid">
 
-  <div class="jumbo-profile jumbotron">
+  <div class="jumbo-profile jumbotron" ng-hide="profile.showSaved">
     <div class="container-fluid">
       <div class="jumbo-header">
         <h1>Your news</h1>
+      </div>
+    </div>
+  </div>
+
+  <div class="jumbo-saved jumbotron" ng-show="profile.showSaved">
+    <div class="container-fluid">
+      <div class="jumbo-header">
+        <h1>Your saved articles</h1>
       </div>
     </div>
   </div>
@@ -174,7 +183,7 @@
 
   <!-- User news -->
 
-  <div class="row" ng-show="!(profile.loading) && !(profile.noFeeds) && !(profile.addFeeds) && !(profile.deleteFeeds)">
+  <div class="row" ng-show="!(profile.loading) && !(profile.noFeeds) && !(profile.addFeeds) && !(profile.deleteFeeds) && !(profile.showSaved)">
 
     <div class="column col-lg-3 col-md-4 col-sm-6 col-xs-12" ng-repeat="article in profile.articles | orderBy: 'date':true | filter: profile.userSearch | filter: {topic: profile.userFilterTopic} | filter: {pubTitle: profile.userFilterFeed}">
       <div class="content-card" >
@@ -184,7 +193,22 @@
         <div class="card-text" ng-click="profile.setSpotlight(true, article)">
           <p><a href="{{article.link}}" target="_blank">{{article.title}}</a></p>
           <p>{{article.author}}</p>
-          <!-- <p ng-bind-html="article.description"></p> -->
+          <p class="date">{{article.date|dateFormat}}</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="row" ng-show="!(profile.loading) && !(profile.noFeeds) && !(profile.addFeeds) && !(profile.deleteFeeds) && profile.showSaved">
+
+    <div class="column col-lg-3 col-md-4 col-sm-6 col-xs-12" ng-repeat="article in profile.current[profile.currentKey].saved | toArray:true | orderBy: 'date':true | filter: profile.userSearch | filter: {topic: profile.userFilterTopic} | filter: {pubTitle: profile.userFilterFeed}">
+      <div class="content-card" >
+        <div class="card-header" ng-class="profile.setTopicColor(article.topic)">
+          <h4 ng-click="profile.setFeedFilter(article)"><a href="">{{article.pubTitle}}</a></h4>
+        </div>
+        <div class="card-text" ng-click="profile.setSpotlight(true, article)">
+          <p><a href="{{article.link}}" target="_blank">{{article.title}}</a></p>
+          <p>{{article.author}}</p>
           <p class="date">{{article.date|dateFormat}}</p>
         </div>
       </div>

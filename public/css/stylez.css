@@ -37,6 +37,11 @@ body {
   color: #fff;
 }
 
+.jumbo-saved {
+  background: #8e44ad;
+  color: #fff;
+}
+
 /*===== Card styles =====*/
 
 .content-card {
