@@ -224,7 +224,9 @@
           <div class="content-card">
             <div class="card-header" ng-class="profile.setTopicColor(profile.spotlightItem.topic)">
               <h4 ng-click="profile.setFeedFilter(article)"><a href="">{{profile.spotlightItem.pubTitle}}</a></h4>
-              <button class="unsave-article btn btn-default" ng-click="profile.unsaveArticle()"><span class="glyphicon glyphicon-trash" aria-hidden="true"></span> Unsave</button>
+              <button class="save-article btn btn-default" ng-click="profile.saveArticle()" ng-hide="profile.spotlightItem.saved || profile.showSaved"><span class="glyphicon glyphicon-book" aria-hidden="true"></span> Save this article</button>
+              <button class="saved-article btn btn-default" ng-hide="!(profile.spotlightItem.saved) || profile.showSaved"><span class="glyphicon glyphicon-bookmark" aria-hidden="true"></span> Saved</button>
+              <button class="unsave-article btn btn-default" ng-click="profile.unsaveArticle()" ng-show="profile.spotlightItem.saved && profile.showSaved"><span class="glyphicon glyphicon-trash" aria-hidden="true"></span> Unsave</button>
             </div>
             <div class="card-text">
               <p><a href="{{profile.spotlightItem.link}}" target="_blank">{{profile.spotlightItem.title}}</a></p>

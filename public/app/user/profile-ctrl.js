@@ -225,6 +225,9 @@ angular.module('app')
 
     profile.savedCommentCheck = (data) => {
       let userSaved = profile.current[profile.currentKey].saved;
+      for (let key in userSaved) {
+        userSaved[key].saved = true;
+      }
       for (let key in data) {
         for (let savedKey in userSaved) {
           if (userSaved[savedKey].link === data[key].link) {
@@ -272,6 +275,21 @@ angular.module('app')
         profile.savedCommentCheck(displayComment);
       }
     })
+
+    profile.saveArticle = () => {
+      if (!profile.user) {
+        window.alert('You have to be logged in to save articles.');
+      }
+      let toSave = {};
+      Object.assign(toSave, profile.spotlightItem);
+      if (toSave.comments) {
+        delete toSave.comments;
+      }
+      UserFactory.userSaveArticle(toSave, profile.currentKey)
+        .then(() => {
+          profile.spotlightItem.saved = true;
+        });
+    }
 
     profile.unsaveArticle = () => {
       UserFactory.userUnsaveArticle(profile.currentKey, profile.spotlightItem.$key)
