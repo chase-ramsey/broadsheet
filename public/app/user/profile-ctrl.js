@@ -139,7 +139,6 @@ angular.module('app')
     profile.setSpotlight = (bool, item) => {
       profile.spotlight = bool;
       profile.spotlightItem = item;
-      console.log("spotlightItem: ", item);
     }
 
     profile.toggleAddFeed = (feed) => {
@@ -323,7 +322,6 @@ angular.module('app')
     profile.goToSaved = () => {
       UserFactory.refreshUserSaved(profile.currentKey)
         .then((res) => {
-          console.log("res: ", res.data);
           profile.current[profile.currentKey].saved = res.data;
           CommentFactory.fetchAllComments()
             .then((commentRes) => {
