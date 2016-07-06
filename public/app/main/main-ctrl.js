@@ -162,16 +162,18 @@ angular.module('app')
     main.saveArticle = () => {
       if (!main.user) {
         window.alert('You have to be logged in to save articles.');
+      } else {
+          let toSave = {};
+          Object.assign(toSave, main.spotlightItem);
+          if (toSave.comments) {
+            delete toSave.comments;
+          }
+          toSave.saved = true;
+          UserFactory.userSaveArticle(toSave, main.currentKey)
+            .then(() => {
+              main.spotlightItem.saved = true;
+            });
       }
-      let toSave = {};
-      Object.assign(toSave, main.spotlightItem);
-      if (toSave.comments) {
-        delete toSave.comments;
-      }
-      UserFactory.userSaveArticle(toSave, main.currentKey)
-        .then(() => {
-          main.spotlightItem.saved = true;
-        });
     }
 
   })

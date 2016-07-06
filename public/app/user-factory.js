@@ -44,6 +44,10 @@ angular.module('app')
 
       userUnsaveArticle: (profileKey, articleKey) => {
         return $http.delete(`${BASE_API}/profiles/${profileKey}/saved/${articleKey}.json`);
+      },
+
+      refreshUserSaved: (profileKey) => {
+        return $http.get(`${BASE_API}/profiles/${profileKey}/saved.json`);
       }
 
     }

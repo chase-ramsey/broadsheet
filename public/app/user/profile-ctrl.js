@@ -58,6 +58,16 @@ angular.module('app')
       }
     }
 
+    profile.checkUserSaved = () => {
+      for (let articleKey in profile.articles) {
+        for (let savedKey in profile.current[profile.currentKey].saved) {
+          if (profile.articles[articleKey].link === profile.current[profile.currentKey].saved[savedKey].link) {
+            profile.articles[articleKey].saved = true;
+          }
+        }
+      }
+    }
+
     profile.filterAddFeeds = () => {
       Object.assign(profile.addFeedsFiltered, profile.allFeeds);
       for (var allFeedKey in profile.allFeeds) {
@@ -79,6 +89,7 @@ angular.module('app')
           profile.articles = FeedFactory.getArticles();
           profile.loading = false;
           profile.noFeeds = false;
+          profile.checkUserSaved();
           $scope.$apply();
           CommentFactory.fetchAllComments()
             .then((res) => {
@@ -225,6 +236,9 @@ angular.module('app')
 
     profile.savedCommentCheck = (data) => {
       let userSaved = profile.current[profile.currentKey].saved;
+      for (let key in userSaved) {
+        userSaved[key].saved = true;
+      }
       for (let key in data) {
         for (let savedKey in userSaved) {
           if (userSaved[savedKey].link === data[key].link) {
@@ -273,6 +287,21 @@ angular.module('app')
       }
     })
 
+    profile.saveArticle = () => {
+      if (!profile.user) {
+        window.alert('You have to be logged in to save articles.');
+      }
+      let toSave = {};
+      Object.assign(toSave, profile.spotlightItem);
+      if (toSave.comments) {
+        delete toSave.comments;
+      }
+      UserFactory.userSaveArticle(toSave, profile.currentKey)
+        .then(() => {
+          profile.spotlightItem.saved = true;
+        });
+    }
+
     profile.unsaveArticle = () => {
       UserFactory.userUnsaveArticle(profile.currentKey, profile.spotlightItem.$key)
         .then(() => {
@@ -281,8 +310,25 @@ angular.module('app')
               delete profile.current[profile.currentKey].saved[key];
             }
           }
+          for (let key in profile.articles) {
+            if (profile.articles[key].link === profile.spotlightItem.link) {
+              profile.articles[key].saved = false;
+            }
+          }
           profile.setSpotlight(false, {});
         });
+    }
+
+    profile.goToSaved = () => {
+      UserFactory.refreshUserSaved(profile.currentKey)
+        .then((res) => {
+          profile.current[profile.currentKey].saved = res.data;
+          CommentFactory.fetchAllComments()
+            .then((commentRes) => {
+              profile.savedCommentCheck(commentRes.data);
+              profile.showSaved = true;
+            })
+        })
     }
 
   })
