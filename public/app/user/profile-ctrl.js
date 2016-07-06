@@ -58,6 +58,16 @@ angular.module('app')
       }
     }
 
+    profile.checkUserSaved = () => {
+      for (let articleKey in profile.articles) {
+        for (let savedKey in profile.current[profile.currentKey].saved) {
+          if (profile.articles[articleKey].link === profile.current[profile.currentKey].saved[savedKey].link) {
+            profile.articles[articleKey].saved = true;
+          }
+        }
+      }
+    }
+
     profile.filterAddFeeds = () => {
       Object.assign(profile.addFeedsFiltered, profile.allFeeds);
       for (var allFeedKey in profile.allFeeds) {
@@ -79,6 +89,7 @@ angular.module('app')
           profile.articles = FeedFactory.getArticles();
           profile.loading = false;
           profile.noFeeds = false;
+          profile.checkUserSaved();
           $scope.$apply();
           CommentFactory.fetchAllComments()
             .then((res) => {
@@ -128,6 +139,7 @@ angular.module('app')
     profile.setSpotlight = (bool, item) => {
       profile.spotlight = bool;
       profile.spotlightItem = item;
+      console.log("spotlightItem: ", item);
     }
 
     profile.toggleAddFeed = (feed) => {
@@ -299,8 +311,26 @@ angular.module('app')
               delete profile.current[profile.currentKey].saved[key];
             }
           }
+          for (let key in profile.articles) {
+            if (profile.articles[key].link === profile.spotlightItem.link) {
+              profile.articles[key].saved = false;
+            }
+          }
           profile.setSpotlight(false, {});
         });
+    }
+
+    profile.goToSaved = () => {
+      UserFactory.refreshUserSaved(profile.currentKey)
+        .then((res) => {
+          console.log("res: ", res.data);
+          profile.current[profile.currentKey].saved = res.data;
+          CommentFactory.fetchAllComments()
+            .then((commentRes) => {
+              profile.savedCommentCheck(commentRes.data);
+              profile.showSaved = true;
+            })
+        })
     }
 
   })

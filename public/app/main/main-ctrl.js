@@ -168,6 +168,7 @@ angular.module('app')
       if (toSave.comments) {
         delete toSave.comments;
       }
+      toSave.saved = true;
       UserFactory.userSaveArticle(toSave, main.currentKey)
         .then(() => {
           main.spotlightItem.saved = true;
