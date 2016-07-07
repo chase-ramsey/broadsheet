@@ -29,4 +29,7 @@ When you first load the app, **Broadsheet** sends requests for RSS data from 16 
 ##### Filtering news
 There are a few different options for filtering the results. From the navbar, you can click the **Topics** link to see a dropdown of topics to view. You can also click on the **publication title** ("Kill Screen", for example), and only the results from that outlet will be shown. The **search** box in the navbar matches your keyword searches with article titles, author names, publication titles, text content from the RSS item description, and user comments.
 
+##### Your news
+After creating a profile and logging in, you'll have access to a news feed that you can curate yourself by selecting from some of the default feeds provided by the app and providing new RSS feeds from your own favorite media outlets. You can access your news by clicking on the **Your News** link in the navbar.
 
+If you haven't subscribed to any of your own feeds yet, the app will prompt you to do so when you first access your news. Each of the default RSS feeds will be listed for you to choose from, and you can also add your own favorite feeds by clicking on the **Add new** link on this screen. Enter your title for the feed (this is not necessarily the publication title that will appear when articles are fetched), paste in the RSS link, select a topic from the dropdown, and submit the form to add a new feed. After you subscribe to your initial feeds, you can access this screen again by clicking the **Add more feeds** link in the navbar when browsing your news.
