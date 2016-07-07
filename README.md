@@ -24,7 +24,9 @@ After the dependencies are installed, running the command ```npm run start``` in
 ### Features
 
 ##### Latest news
-When you first load the app, **Broadsheet** sends requests for RSS data from 16 popular news outlets representing several different topics, from news and culture to music and videogames. Only the 10 latest articles for each outlet are returned, however, so you're not overwhelmed with hundreds stories to comb through. You can **refresh** this feed using the link in the navbar, and it automatically refreshes every time you navigate back to the "Latest News" page.
+When you first load the app, **Broadsheet** sends requests for RSS data from 16 popular news outlets representing several different topics, from news and culture to music and videogames. Only the 10 latest articles for each outlet are returned, however, so you're not overwhelmed with hundreds stories to comb through. You can **refresh** this feed using the link in the navbar, and it automatically refreshes every time you navigate back to the "Latest news" page from "Your news".
+
+The title of each article is linked to the original story, so clicking on it will launch another tab with the source article in its original context. Clicking on the body of an article will also bring up the article's "spotlight view", which displays any extra descriptive content or images provided by the RSS feed and allows you to save the article to your profile or comment on the story (you can only do these last two if you have already created a profile and logged in).
 
 ##### Filtering news
 There are a few different options for filtering the results. From the navbar, you can click the **Topics** link to see a dropdown of topics to view. You can also click on the **publication title** ("Kill Screen", for example), and only the results from that outlet will be shown. The **search** box in the navbar matches your keyword searches with article titles, author names, publication titles, text content from the RSS item description, and user comments.
@@ -33,3 +35,12 @@ There are a few different options for filtering the results. From the navbar, yo
 After creating a profile and logging in, you'll have access to a news feed that you can curate yourself by selecting from some of the default feeds provided by the app and providing new RSS feeds from your own favorite media outlets. You can access your news by clicking on the **Your News** link in the navbar.
 
 If you haven't subscribed to any of your own feeds yet, the app will prompt you to do so when you first access your news. Each of the default RSS feeds will be listed for you to choose from, and you can also add your own favorite feeds by clicking on the **Add new** link on this screen. Enter your title for the feed (this is not necessarily the publication title that will appear when articles are fetched), paste in the RSS link, select a topic from the dropdown, and submit the form to add a new feed. After you subscribe to your initial feeds, you can access this screen again by clicking the **Add more feeds** link in the navbar when browsing your news.
+
+If subscribe to some feeds initially that you decide later you no longer want to follow, simply click the **Unsubscribe** link in the navbar while browsing your news, and you can select the feeds you don't want to see anymore.
+
+##### Saving articles
+
+When looking at a story in spotlight view, a link appears at the top of the story card that allows you to save the article. Saved articles appear in the "Your news" section of the site, and navigating here will also allow you to **Unsave** previously saved articles. You can save articles from either the "Latest news" or the "Your news" sections of the site.
+
+##### Commenting
+Commenting is just as simple as it looks: when in an article's spotlight view, type a new comment in the text input below the box where comments are displayed and submit the comment. Your comments and comments from other users appear in real-time, so you can always see what others are saying about articles you're interested in. Remember though, when an article is no longer one of the 10 latest from the outlet it's fetched from, your comments on that article will no longer be accessible. To save your conversation on a story, be sure to save the article. Then you and anyone else who has saved the article can continue talking.
