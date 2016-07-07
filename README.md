@@ -14,7 +14,7 @@ via Bower -
   * [Angular-sanitize](https://github.com/angular/bower-angular-sanitize)
   * [Firebase](https://github.com/firebase/firebase-bower)
   * [Bootstrap](https://github.com/twbs/bootstrap)
-  * [jQuery](http://jquery.com/) (installed with Bootstrap, but not needed)
+  * [MomentJS](http://momentjs.com/)
 
 via NPM -
   * [http-server](https://www.npmjs.com/package/http-server)
