@@ -1,0 +1,24 @@
+{
+  "name": "codename-mercury",
+  "version": "1.0.0",
+  "description": "This is the official repo for my NSS capstone project. It doesn't have a name yet, but we can call it Codename Mercury when we speak of it in hushed tones.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "http-server public"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/chase-ramsey/codename-mercury.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/chase-ramsey/codename-mercury/issues"
+  },
+  "homepage": "https://github.com/chase-ramsey/codename-mercury#readme",
+  "devDependencies": {
+    "http-server": "^0.9.0"
+  }
+}
