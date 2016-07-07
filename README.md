@@ -53,3 +53,8 @@ When looking at a story in spotlight view, a button appears at the top of the st
 
 ##### Commenting
 Commenting is just as simple as it looks: when in an article's spotlight view, type a new comment in the text input below the box where comments are displayed, and submit the comment. Your comments and comments from other users appear in real-time, so you can always see what others are saying about articles you're interested in. Remember though, when an article is no longer one of the 10 latest from the outlet it's fetched from, your comments on that article will no longer be accessible. To save your conversation on a story, be sure to save the article. Then you and anyone else who has saved the article can continue talking.
+
+### Contact me
+As you're checking out the app, I'd love to hear any comments, suggestions, or issues you have. Broadsheet is still very much a work-in-progress, and user feedback is invaluable as I continue honing the app's functionality and layout. The best way to reach out about Broadsheet is at my Github repository [here](https://github.com/chase-ramsey/codename-mercury).
+
+Thanks for giving Broadsheet a try, and don't be a stranger!
