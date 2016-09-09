@@ -56,5 +56,3 @@ Commenting is just as simple as it looks: when in an article's spotlight view, t
 
 ### Contact me
 As you're checking out the app, I'd love to hear any comments, suggestions, or issues you have. Broadsheet is still very much a work-in-progress, and user feedback is invaluable as I continue honing the app's functionality and layout. The best way to reach out about Broadsheet is at my Github repository [here](https://github.com/chase-ramsey/codename-mercury).
-
-Thanks for giving Broadsheet a try, and don't be a stranger!

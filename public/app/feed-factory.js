@@ -19,7 +19,7 @@ angular.module('app')
         for (var key in feeds) {
           let currentTopic = feeds[key].topic
           promiseArray.push(
-            $http.get(feeds[key].url)
+            $http.get(`/getServer/${feeds[key].url}`)
               .then((res) => {
                 var parse = new DOMParser();
                 var xml = parse.parseFromString(res.data, 'application/xml');
