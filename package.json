@@ -19,7 +19,7 @@
   },
   "homepage": "https://github.com/chase-ramsey/codename-mercury#readme",
   "devDependencies": {
-    "express": "^4.14.0",
+    "express": "^4.14.0"
   },
   "dependencies": {
     "http-proxy": "^1.14.0",
