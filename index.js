@@ -1,12 +1,10 @@
 const express = require('express');
 const request = require('request')
-// const apiUrl = ???; // Needs to be multiple addresses
 
 const server = express();
 server.set('port', 5000);
 server.use(express.static(__dirname + '/public'));
 
-// const proxy = httpProxy.createProxyServer();
 
 server.all("/getServer/*", function(req, res) {
     res.header("Access-Control-Allow-Origin", "*")
