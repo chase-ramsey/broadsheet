@@ -5,7 +5,7 @@
 ### Run
 
 ##### Basic setup
-After forking the repository, you'll need to get Bower and NPM initialized in the project root folder. Then, use ```bower install``` and ```npm install``` to install the developer dependencies that will allow the app to run.
+After forking the repository, you'll need to ```bower install``` and ```npm install``` to install the developer dependencies that will allow the app to run.
 
 Here's a list of the dependencies used on this project:
 
@@ -19,16 +19,10 @@ via Bower -
   * [MomentJS](http://momentjs.com/)
 
 via NPM -
-  * [http-server](https://www.npmjs.com/package/http-server)
+  * [express](https://www.npmjs.com/package/express)
+  * [request](https://www.npmjs.com/package/request)
 
-After the dependencies are installed, running the command ```npm run start``` in your terminal will serve the app locally at [http://localhost:8080](http://localhost:8080).
-
-##### CORS
-Because Broadsheet operates entirely on the front-end, there are some issues with cross-origin resource sharing when making requests for RSS data. In order for these requests to go through, you'll have to install an extension in your browser that adds the appropriate headers to whitelisted addresses. For Chrome, I recommend the [Allow-Control-Allow-Origin: *](https://chrome.google.com/webstore/detail/allow-control-allow-origi/nlfbmbojpeacfghkpbjhddihlkkiljbi?hl=en) plugin, which allows you to save template addresses to add these headers to. Once installed, click on the extension at the top of the browser, and in the dropdown, enable the extension, and save the following templates:
-  * https://*/rss
-  * https://*/feed
-
-These two templates will allow requests to all of the preselected feeds and most unique user feeds without interrupting any requests to Firebase. However, you may find that with some user unique feeds, additional address templates may need to be added to the extension to allow all requests. If you're having issues with this, please feel free to reach out to me.
+The app is served on a lightweight node server that proxies all cross-origin requests for RSS data. After the dependencies are installed, running the command ```npm run start``` in your terminal will serve the app locally at [http://localhost:5000](http://localhost:5000).
 
 ### Features
 
@@ -56,5 +50,3 @@ Commenting is just as simple as it looks: when in an article's spotlight view, t
 
 ### Contact me
 As you're checking out the app, I'd love to hear any comments, suggestions, or issues you have. Broadsheet is still very much a work-in-progress, and user feedback is invaluable as I continue honing the app's functionality and layout. The best way to reach out about Broadsheet is at my Github repository [here](https://github.com/chase-ramsey/codename-mercury).
-
-Thanks for giving Broadsheet a try, and don't be a stranger!
